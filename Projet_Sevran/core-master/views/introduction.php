@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ambiance Sevran</title>
+    <link rel="stylesheet" href="assets\CSS\Introduction.css">   
 </head>
 <body>
     <div>Pour mieux vous impreniez de l'ambiance de Sevran voici quelques vidéos plus ou moins connues...</div>
