@@ -21,6 +21,9 @@
         <p>Enfin mon préféré : Kaaris qui montre enfin ses émotions</p>
         <p><a href="https://youtu.be/yAoPhl4LaWg?si=jReyGI3TvQbWdzvj"  target=_blank> Kaaris x VIDEO CLUB - ROI DE SEVRAN <a></p>
     </div>
+    <div id="images">
+        <Img src=assets\images\gare-sevran-beaudottes alt = "Gare de Sevran" width="400" heigth="225">
+    </div>
     
 </body>
 </html>
