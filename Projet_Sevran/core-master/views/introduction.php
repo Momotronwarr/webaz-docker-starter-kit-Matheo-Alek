@@ -35,5 +35,11 @@
         <p>Enfin la fameuse Corne d'Or !</p>
         <p><Img src=assets/images/la_corne_d_or.webp alt = "La Corne d'Or" width="400" heigth="225"></p>
     </div>
+
+    <form action="/map" method="get">
+        <button type="submit" title="Map">Doro Party ?! (Traduction : Prêt à découvrir Sevran ?!)</button>
+        <input id="triche" type="checkbox"> <label for="triche">Mode des tricheurs (Looser 👎​)</label>
+    </form>
+    
 </body>
 </html>
