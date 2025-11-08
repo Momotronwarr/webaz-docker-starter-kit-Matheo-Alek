@@ -9,4 +9,8 @@ Flight::route('/', function() {
     Flight::render('menu');
 });
 
+Flight::route('/introduction', function() {
+    Flight::render('introduction');
+});
+
 Flight::start();
