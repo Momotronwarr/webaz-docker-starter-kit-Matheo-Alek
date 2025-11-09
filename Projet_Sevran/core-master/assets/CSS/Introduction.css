@@ -1,1 +1,130 @@
-aaZ
+body {
+    margin: 0;
+    padding: 40px 0;
+    font-family: 'Poppins', 'Arial', sans-serif;
+    color: white;
+    background:
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url("../images/Centre_social_sevran.webp");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 800;
+    font-family: 'Bangers', cursive; 
+    text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
+    letter-spacing: 2px;
+    color: hsl(0, 0%, 100%); 
+    margin : 20px}
+
+
+#titre {
+    font-size: 28px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif; 
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1px;
+    color: #ffffff; 
+    margin : 100px
+}
+
+#video {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    justify-items: center;
+    align-items: center;
+    margin: auto;
+}
+
+#images1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    justify-items: center;
+    align-items: center;
+    margin: auto;
+}
+
+#images2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr ; 
+    justify-items: center;
+    align-items: center;
+    margin: auto;
+}
+
+#texte1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    justify-items: center;
+    align-items: center;
+    margin: auto;
+}
+
+#texte2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    justify-items: center;
+    align-items: center;
+    margin: auto;
+}
+
+#texte3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    justify-items: center;
+    align-items: center;
+    margin: auto;
+}
+
+
+
+#video img:hover,
+#images1 img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 30px rgba(255, 255, 255, 0.2);
+    filter: brightness(1.2);
+}
+
+#video img,
+#images1 img,
+#images2 img {
+    border-radius: 5px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    width: 90%;
+    max-width: 400px;
+}
+
+#video p,
+#images1 p,
+#images2 p,
+#texte1 p,
+#texte2 p,
+#texte3 p {
+    font-weight: 500;
+    font-size: 18px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+    margin-top: 10px;
+}
+
+
+button {
+    padding: 12px 30px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-color: #666666; 
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff000080;
+}
