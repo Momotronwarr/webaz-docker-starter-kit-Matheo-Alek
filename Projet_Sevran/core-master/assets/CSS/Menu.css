@@ -1,0 +1,45 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  color: white;
+  height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url("../images/Centre_social_sevran.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#titre {
+  font-size: 60px;
+  font-weight: bold;
+  text-shadow: 2px 2px 10px rgba(255, 0, 0, 0.7);
+}
+
+
+#intro {
+  font-size: 40px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  max-width: 800px;
+}
+
+#texte {
+  font-size: 40px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  max-width: 800px;
+}
+
+#questions {
+  font-size: 25px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  max-width: 6000px;
+}
