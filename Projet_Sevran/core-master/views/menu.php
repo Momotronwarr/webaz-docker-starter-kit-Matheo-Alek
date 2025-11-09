@@ -11,11 +11,19 @@
         <p>Sevran 2</p>
     </div>
 
-    <div> 
-        <p>Bienvenue sur le jeu de Sevran (on modifiera apers on mettera un vrai texte)</p>
+    <div id="intro"> 
+        <p>Bienvenue sur le jeu de Sevran !</p>
+    </div>
+    <div id="texte">
+        <p>(on modifiera apres on mettera un vrai texte)</p>
     </div>
 
-    <form action="/introduction" method="get">
+    <div id = "questions"> 
+        <p>Etes-vous prêt(e) à affronter les mecs de Sevran ?</p>
+        <p>Etes-vous prêt(e) à vous prendre des "Ça vient d'où chef ?</p>
+    </div>
+
+    <form action="/introduction" method="POST">
         <button type="submit" title="Ambiance Sevran">▶️ Lancer le jeu 🥷🏿​☠️​</button>
     </form>
 </body>
