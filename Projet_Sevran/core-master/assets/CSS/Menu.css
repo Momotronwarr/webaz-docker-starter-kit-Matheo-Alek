@@ -43,3 +43,20 @@ body {
   text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
   max-width: 6000px;
 }
+
+button {
+    padding: 12px 30px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-color: #666666; 
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff000080;
+}

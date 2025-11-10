@@ -22,10 +22,11 @@
         <p>Etes-vous prêt(e) à affronter les mecs de Sevran ?</p>
         <p>Etes-vous prêt(e) à vous prendre des "Ça vient d'où chef ?</p>
     </div>
-
-    <form action="/introduction" method="POST">
-        <button type="submit" title="Ambiance Sevran">▶️ Lancer le jeu 🥷🏿​☠️​</button>
+    
+    <form action="/prez_musical" method="POST">
+        <button type="submit" title="Présentation musical">▶️ Présentation de Sevran​</button>
     </form>
+    
 </body>
 </html>
 
