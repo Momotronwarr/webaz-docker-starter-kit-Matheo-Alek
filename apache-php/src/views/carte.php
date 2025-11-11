@@ -14,5 +14,9 @@
         <div id="map" class="map"></div>
     </div>
     <script src="\assets\JS\carte.js"></script>
+
+    <div id = "inventaire">
+        <p>inventaire</p>
+    </div>
 </body>
 </html>

@@ -29,7 +29,7 @@ h1 {
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
     letter-spacing: 1px;
     color: #ffffff; 
-    margin : 80px
+    margin : 50px 70px 70px 70px
 }
 
 #video {
@@ -46,8 +46,8 @@ h1 {
     grid-template-columns: 1fr 1fr 1fr; 
     justify-items: center;
     align-items: center;
-    margin-top: 100px;
-    margin-bottom: 140px
+    margin-top: 130px;
+    margin-bottom: 15px
 }
 
 #images2 {
@@ -64,6 +64,15 @@ h1 {
     justify-items: center;
     align-items: center;
     margin-bottom: 100px;
+    
+}
+
+#texte2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 70px;
     
 }
 
@@ -103,6 +112,10 @@ h1 {
     font-size: 20px;
     text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
     margin-top: 10px;
+}
+
+#texte2 p {
+    margin-bottom: 140px;
 }
 
 #texte3 p {

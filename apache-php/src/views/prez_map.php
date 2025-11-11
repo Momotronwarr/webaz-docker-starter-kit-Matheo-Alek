@@ -29,7 +29,7 @@
         </a>
     </div>
 
-    <div id="texte1" >
+    <div id="texte2" >
         <p>Célèbre gare de Sevran (un RER B de compétition !)</p>
         <p>La fameuse Corne d'Or !</p>
         <p>La cité les Bedottes à Sevran</p>
