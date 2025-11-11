@@ -9,9 +9,18 @@ Flight::route('/', function() {
     Flight::render('menu');
 });
 
+Flight::route('/prez_musical', function() {
+    Flight::render('prez_musical');
+});
 
-Flight::route('/carte', function() {
-    Flight::render('carte');
+Flight::route('/prez_map', function() {
+    Flight::render('prez_map');
+});
+
+Flight::route('/prez_personnalite', function() {
+    $triche = false;
+    Flight::render('prez_personnalite', ['triche' => $triche]);
 });
 
 Flight::start();
+
