@@ -12,15 +12,15 @@ body {
 }
 
 #inventaire {
-  position: fixed;       /* reste collé en bas */
+  position: fixed;     
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 10%;           /* les 10% restants */
+  height: 10%;           
   background-color: rgb(77, 77, 77);
-  display: flex;         /* pour centrer le contenu */
+  display: flex;        
   justify-content: center;
   align-items: center;
-  color: white;          /* pour que le texte soit visible */
+  color: white;        
   font-weight: bold;
 }
