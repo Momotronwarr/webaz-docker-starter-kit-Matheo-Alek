@@ -13,8 +13,8 @@ new Vue({
                     })
                 ],
                 view: new ol.View({
-                    center: ol.proj.fromLonLat([2.3522, 48.8566]), // Paris
-                    zoom: 10
+                    center: ol.proj.fromLonLat([2.53333, 48.93333]), // Sevran
+                    zoom: 15
                 })
             });
         }
