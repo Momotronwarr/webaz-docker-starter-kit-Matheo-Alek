@@ -34,7 +34,7 @@
                 <button type="submit" title="Présentation de la ville">​Précédent</button>
             </form>
 
-            <form action="/map" method="get">
+            <form action="/carte" method="get">
                 <button type="submit" title="Map">Doro Party ?! (Traduction : Prêt à découvrir Sevran ?!)</button>
                 <input id="triche" v-model="triche" type="checkbox"> 
                 <label for="triche">Mode des tricheurs (Pour les Looser 👎​) </label>
