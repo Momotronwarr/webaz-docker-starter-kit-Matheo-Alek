@@ -1,9 +1,26 @@
 new Vue({
     el: '#app',
+
+    data: {
+        objetRecupere: false,
+        objet : '',     
+        puff_photo: 'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw', 
+        photos_inventaire : [],
+    },
+
     mounted() {
         this.initMap();
-    },
+    },  
+
     methods: {
+        ajouter_inventaire() {
+        if (this.objetRecupere === true) {
+            this.photos_inventaire.push(this.puff_photo);
+            this.objetRecupere = false; 
+            console.log(this.photos_inventaire)
+            }
+        },
+
         initMap() {
             let Sevranbedotte = [2.53483373, 48.9360525];
             let rueRogerSalengro = [2.5355004489383908, 48.94264317994083];
@@ -100,20 +117,27 @@ new Vue({
             map.getView().on('change:resolution', function () {
             let zoom = map.getView().getZoom();
 
-            if (zoom >= 19) {
+            if (zoom >= 9) {
                 imageLayer.setVisible(true);
             } else {
                 imageLayer.setVisible(false);
             }
             });
 
+            let vm = this;
+
             map.on('click', function (evt) {
             map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
                 if (layer === imageLayer) { 
+                    bouton.innerText = "Ajouter à l'inventaire";
                      texte.innerText = "Puffman tu veux une puff ?";
                      popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-                     bouton.addEventListener('click', () => {popup.setPosition(undefined)})
-                     
+                     bouton.addEventListener('click', () => {
+                        popup.setPosition(undefined);
+                        vm.objetRecupere = true;
+                        vm.objet = 'puff';
+                        vm.ajouter_inventaire();
+                     })
                 }
                  });
             });
