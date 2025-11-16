@@ -130,7 +130,7 @@ new Vue({
             map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
                 if (layer === imageLayer) { 
                     bouton.innerText = "Ajouter à l'inventaire";
-                     texte.innerText = "Puffman tu veux une puff ?";
+                     texte.innerText = "Puffman : tu veux une puff ?";
                      popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                      bouton.addEventListener('click', () => {
                         popup.setPosition(undefined);
