@@ -139,7 +139,7 @@ new Vue({
 
                         imageLayer1.setVisible(false); 
 
-
+ l
 
             map.getView().on('change:resolution', function () {
             let zoom = map.getView().getZoom();
