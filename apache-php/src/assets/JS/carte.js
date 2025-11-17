@@ -203,16 +203,21 @@ new Vue({
                     };
 
                 } 
-                
-                map.getView().on('change:resolution', function () {
-                let zoom = map.getView().getZoom();
 
-                if (zoom >= 19) {
+                map.getView().on('change:resolution', function () {
+                    
+                if (vm.objet_recupere === 'puff') {
+                    imageLayer1.setVisible(false); 
+                    return;
+                }
+
+                let zoom = map.getView().getZoom();
+                if (zoom >= 9) {
                     imageLayer1.setVisible(true);
                 } else {
                     imageLayer1.setVisible(false);
                 }
-                });
+            });
 
                 if(layer === imageLayer1){
                     texte.innerText = "Puffman : tu veux une puff ?";
@@ -228,6 +233,10 @@ new Vue({
                                         imageLayer1.setVisible(false),
                                         popup.setPosition(undefined);
                                         vm.objet_recupere = 'puff';
+                                        vm.ajouter_inventaire(vm.puff_photo);
+                                        vm.ajouter_inventaire(vm.puff_photo);
+                                        vm.ajouter_inventaire(vm.puff_photo);
+                                        vm.ajouter_inventaire(vm.puff_photo);
                                         vm.ajouter_inventaire(vm.puff_photo);
                                         
                                        
