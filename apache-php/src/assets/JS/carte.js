@@ -4,6 +4,8 @@ new Vue({
     data: {
         objetRecupere: false,
         objet : '',     
+        guetteur_photo : 'https://imgs.search.brave.com/fOoCwlWf4rMtU1AQr4eyma6yR2gvrPorYW4_97YwGb8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLXByZW1p/dW0vaG9tbWUtY2Fn/b3VsZS1yZXNzZW1i/bGUtZXRyYW5nZW1l/bnQtY2xvc2UtdXAt/cG9ydHJhaXQtaXNv/bGUtbXVyLWJsYW5j/XzMyOTA3MC01Nzku/anBnP3NlbXQ9YWlz/X2h5YnJpZA',
+        puffman_photo : 'https://imgs.search.brave.com/P28Yq3qq2soGI_CnzpLl9QJX0kX-OeuByx85RsRqftU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWMuYmUvZW4tbWFy/Y2hlL3NpdGVzL21j/LWVuLW1hcmNoZS9m/aWxlcy9zdHlsZXMv/aW1hZ2Vfc2xpZGVy/X3hsL3B1YmxpYy9p/bWFnZXMvMjAyNC0w/Ny8yMC0yMS1QdWZm/LShjKUJlbGdhaW1h/Z2UuanBnLndlYnA_/aXRvaz03Y0dZczRl/Nw',
         puff_photo: 'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw', 
         photos_inventaire : [],
     },
@@ -24,6 +26,7 @@ new Vue({
         initMap() {
             let Sevranbedotte = [2.53483373, 48.9360525];
             let rueRogerSalengro = [2.5355004489383908, 48.94264317994083];
+            let Jean_Jaurès = [2.5160858532768344, 48.94067724969696];
 
             let map = new ol.Map({
                 target: 'map',
@@ -98,7 +101,7 @@ new Vue({
 
             image.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: 'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw',
+                    src: this.guetteur_photo,
                     scale : 0.2
                 })
             }));
@@ -113,6 +116,30 @@ new Vue({
             map.addLayer(imageLayer);
 
             imageLayer.setVisible(false); 
+
+                        let image1 = new ol.Feature({
+                        geometry: new ol.geom.Point(ol.proj.fromLonLat(Jean_Jaurès))
+                        });
+
+                        image1.setStyle(new ol.style.Style({
+                            image: new ol.style.Icon({
+                                src: this.puffman_photo,
+                                scale : 0.2
+                            })
+                        }));
+
+                        let imageLayer1 = new ol.layer.Vector({
+                            source: new ol.source.Vector({
+                                features: [image1]
+                    
+                            })
+                        });
+
+                        map.addLayer(imageLayer1);
+
+                        imageLayer1.setVisible(false); 
+
+
 
             map.getView().on('change:resolution', function () {
             let zoom = map.getView().getZoom();
@@ -129,31 +156,68 @@ new Vue({
             map.on('click', function (evt) {
             map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
                 if (layer === imageLayer) { 
-                    bouton.innerText = "Ajouter à l'inventaire";
-                     texte.innerText = "Puffman : tu veux une puff ?";
+                    bouton.innerText = "Suivant";
+                     texte.innerText = "Guetteur : j'ai besoin d'une puff là j'suis en manque. Reviens quand t'en auras une";
                      popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                      bouton.addEventListener('click', () => {
-                        popup.setPosition(undefined);
-                        vm.objetRecupere = true;
-                        vm.objet = 'puff';
-                        vm.ajouter_inventaire();
+                        // popup.setPosition(undefined);
+                        
 
-                        image.getGeometry().setCoordinates(
-                        ol.proj.fromLonLat([2.53483373, 48.9360525])
-                   );
-            });
-        }
-    });
-});
+                        // image.getGeometry().setCoordinates(ol.proj.fromLonLat(Jean_Jaurès));
+                        // image.setStyle(new ol.style.Style({
+                        // image: new ol.style.Icon({
+                        // src: vm.puffman_photo,
+                        // scale: 0.2
+                            // })
+                        // }));
+
+                    let zoom = map.getView().getZoom();
+
+                    if (zoom >= 9) {
+                        imageLayer1.setVisible(true);
+                    } 
+                    else {
+                        imageLayer1.setVisible(false);
+                    }
+                    
+                    
+                        map.on('click', function (evt) {
+                        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+                            if (layer === imageLayer1) { 
+                                bouton.innerText = "Ajouter à l'inventaire";
+                                texte.innerText = "Puffman : tu veux une puff ?";
+                                popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
+                                bouton.addEventListener('click', () => {
+                        
+                                    bouton.innerText = "Payer 10€";
+                                    texte.innerText = "Puffman : C'est 10 balles par contre ?";
+                                    popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès))
+                                    bouton.addEventListener('click', () => {
+                                        imageLayer1.setVisible(false),
+                                        popup.setPosition(undefined);
+                                        vm.objetRecupere = true;
+                                        vm.objet = 'puff';
+                                        vm.ajouter_inventaire();
+
+                                    })
+                                    });
+
+                        } 
+
+                    }); 
+                }); 
+                });
+
+        } 
+
+    }); 
+}); 
 
 
         // Pour nous aider a trouver les coordonnées d'un point 
         //     map.on('click', function (evt) {
         //     let coord = evt.coordinate;
-
         //     let lonLat = ol.proj.toLonLat(coord);
-
-        //     console.log('Coordonnées carte :', coord);
         //     console.log('Longitude / Latitude :', lonLat);
         // });
 
