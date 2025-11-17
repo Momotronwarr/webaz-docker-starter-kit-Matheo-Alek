@@ -137,13 +137,17 @@ new Vue({
                         vm.objetRecupere = true;
                         vm.objet = 'puff';
                         vm.ajouter_inventaire();
-                     })
-                }
-                 });
+
+                        image.getGeometry().setCoordinates(
+                        ol.proj.fromLonLat([2.53483373, 48.9360525])
+                   );
             });
+        }
+    });
+});
 
 
-            //Pour nous aider a trouver les coordonnées d'un point 
+        // Pour nous aider a trouver les coordonnées d'un point 
         //     map.on('click', function (evt) {
         //     let coord = evt.coordinate;
 
