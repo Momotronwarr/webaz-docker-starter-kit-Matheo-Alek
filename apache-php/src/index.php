@@ -4,10 +4,24 @@ declare(strict_types=1);
 
 require_once 'flight/Flight.php';
 
-// $link = mysqli_connect('localhost/5432', 'postgres', 'postgres', 'mydb');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$link = pg_connect("host='db' port=5432 dbname='mydb' user='postgres' password='postgres'");
 
 Flight::route('/', function() {
     Flight::render('menu');
+});
+
+Flight::post('/', function() {
+    $pseudo = trim($_POST['pseudo'] ?? $_POST['pseudo'] ?? '');
+    if ($pseudo !== '') {
+        $_SESSION['pseudo'] = $pseudo;
+        Flight::redirect('/prez_musical');
+    } else {
+        Flight::redirect('/');
+    }
 });
 
 Flight::route('/prez_musical', function() {
@@ -43,6 +57,19 @@ Flight::route('/carte', function() {
     Flight::render('carte');
 });
 
+Flight::post('/fin_du_jeu', function() {
+    $pseudo = $_SESSION['pseudo'] ?? null;
+    $score = isset($_POST['score']) && is_numeric($_POST['score']) ? (int)$_POST['score'] : null;
+
+    if ($pseudo) {
+        pg_query($link, 'INSERT INTO tableau_des_scores (pseudo, score) VALUES ($1, $2)', array($pseudo, $score));
+        unset($_SESSION['pseudo']);
+
+        Flight::json(['status' => 'ok']);
+    } else {
+        Flight::json(['status' => 'error', 'message' => 'Aucun pseudo en session'], 400);
+    }
+});
 
 Flight::start();
 

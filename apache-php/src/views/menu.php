@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projet Sevran (KAARIS le boss)</title>
+    <title>Projet Sevran</title>
     <link rel="stylesheet" href="assets\CSS\Menu.css">    
 </head>
 <body>
@@ -16,6 +16,14 @@
     </div>
     <div id="texte">
         <p>(on modifiera apres on mettera un vrai texte)</p>
+    </div>
+
+    <div id ="Pseudo">
+        <form action="/" method="POST">
+            <label>Entrez votre pseudo :</label>
+            <input type="text" name="pseudo" required value="<?php echo htmlspecialchars($_SESSION['pseudo'] ?? ''); ?>">
+            <button type="submit">ok</button>
+        </form>
     </div>
 
     <div id = "questions"> 
