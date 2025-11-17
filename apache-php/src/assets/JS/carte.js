@@ -139,7 +139,7 @@ new Vue({
 
                         imageLayer1.setVisible(false); 
 
- l
+ 
 
             map.getView().on('change:resolution', function () {
             let zoom = map.getView().getZoom();
@@ -153,66 +153,65 @@ new Vue({
 
             let vm = this;
 
+
+
             map.on('click', function (evt) {
             map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-                if (layer === imageLayer) { 
-                    bouton.innerText = "Suivant";
-                     texte.innerText = "Guetteur : j'ai besoin d'une puff là j'suis en manque. Reviens quand t'en auras une";
-                     popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-                     bouton.addEventListener('click', () => {
-                        // popup.setPosition(undefined);
-                        
 
-                        // image.getGeometry().setCoordinates(ol.proj.fromLonLat(Jean_Jaurès));
-                        // image.setStyle(new ol.style.Style({
-                        // image: new ol.style.Icon({
-                        // src: vm.puffman_photo,
-                        // scale: 0.2
-                            // })
-                        // }));
+                if (layer === imageLayer) {
 
-                    let zoom = map.getView().getZoom();
-
-                    if (zoom >= 9) {
-                        imageLayer1.setVisible(true);
-                    } 
-                    else {
-                        imageLayer1.setVisible(false);
+                    if(vm.objet === 'puff'){
+                        texte.innerText = "Guetteur : Ah merci tu régales le sang";
+                        bouton.innerText = "Suivant";
+                        popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
+                    } else {
+                        texte.innerText = "Guetteur : J'ai besoin d'une puff, reviens quand t'en auras une";
+                        bouton.innerText = "Aller cherche une puff";
+                        popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                     }
-                    
-                    
-                        map.on('click', function (evt) {
-                        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-                            if (layer === imageLayer1) { 
-                                bouton.innerText = "Ajouter à l'inventaire";
-                                texte.innerText = "Puffman : tu veux une puff ?";
-                                popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
-                                bouton.addEventListener('click', () => {
-                        
-                                    bouton.innerText = "Payer 10€";
-                                    texte.innerText = "Puffman : C'est 10 balles par contre ?";
-                                    popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès))
-                                    bouton.addEventListener('click', () => {
+
+                    bouton.onclick = () => {
+                        popup.setPosition(undefined);
+
+                        if(vm.objet !== 'puff'){
+                            let zoom = map.getView().getZoom();
+
+                            if (zoom >= 9) {
+                                imageLayer1.setVisible(true);
+                            } else {
+                                imageLayer1.setVisible(false);
+                            }
+                        }
+                    };
+
+                } 
+
+                if(layer === imageLayer1){
+                    texte.innerText = "Puffman : tu veux une puff ?";
+                    bouton.innerText = "Oui";
+                    popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès))
+
+                    bouton.addEventListener('click', () => {
+                        popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
+                        texte.innerText = "Puffman : c'est 10 balles par contre";
+                        bouton.innerText = "Payer 10€";
+
+                       bouton.addEventListener('click', () => {
                                         imageLayer1.setVisible(false),
                                         popup.setPosition(undefined);
                                         vm.objetRecupere = true;
                                         vm.objet = 'puff';
                                         vm.ajouter_inventaire();
+                        });
+                    });
+                } 
 
-                                    })
-                                    });
-
-                        } 
-
-                    }); 
-                }); 
-                });
-
-        } 
-
-    }); 
-}); 
-
+            }); 
+        }); 
+        }                  
+    }                      
+});                         
+       
 
         // Pour nous aider a trouver les coordonnées d'un point 
         //     map.on('click', function (evt) {
@@ -222,6 +221,4 @@ new Vue({
         // });
 
             
-        }
-    }
-});
+  

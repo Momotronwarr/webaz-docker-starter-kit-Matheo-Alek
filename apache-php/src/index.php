@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once 'flight/Flight.php';
 
-$link = mysqli_connect('localhost/5432', 'postgres', 'postgres', 'mydb');
+// $link = mysqli_connect('localhost/5432', 'postgres', 'postgres', 'mydb');
 
 Flight::route('/', function() {
     Flight::render('menu');
