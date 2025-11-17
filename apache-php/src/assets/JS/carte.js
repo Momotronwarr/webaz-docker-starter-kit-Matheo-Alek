@@ -239,7 +239,7 @@ new Vue({
                                         vm.ajouter_inventaire(vm.puff_photo);
                                         vm.ajouter_inventaire(vm.puff_photo);
                                         
-                                       
+                                        
                         };
                     };
                 } 
