@@ -13,8 +13,9 @@
     <div id="app">
         <div id="map" class="map"></div>
         <div id = "inventaire">
-            <p>inventaire</p>
-            <div v-for = "photo in photos_inventaire"><img :src="photo"></div>
+            <div v-for="(photo, index) in photos_inventaire" :id="'image' + (index + 1)">
+                <img :src="photo">
+            </div>
         </div>
     </div>
     <script src="\assets\JS\carte.js"></script>
