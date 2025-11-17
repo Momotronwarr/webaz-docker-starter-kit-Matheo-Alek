@@ -2,8 +2,7 @@ new Vue({
     el: '#app',
 
     data: {
-        objetRecupere: false,
-        objet : '',     
+        objet_recupere : '',     
         guetteur_photo : 'https://imgs.search.brave.com/fOoCwlWf4rMtU1AQr4eyma6yR2gvrPorYW4_97YwGb8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLXByZW1p/dW0vaG9tbWUtY2Fn/b3VsZS1yZXNzZW1i/bGUtZXRyYW5nZW1l/bnQtY2xvc2UtdXAt/cG9ydHJhaXQtaXNv/bGUtbXVyLWJsYW5j/XzMyOTA3MC01Nzku/anBnP3NlbXQ9YWlz/X2h5YnJpZA',
         puffman_photo : 'https://imgs.search.brave.com/P28Yq3qq2soGI_CnzpLl9QJX0kX-OeuByx85RsRqftU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWMuYmUvZW4tbWFy/Y2hlL3NpdGVzL21j/LWVuLW1hcmNoZS9m/aWxlcy9zdHlsZXMv/aW1hZ2Vfc2xpZGVy/X3hsL3B1YmxpYy9p/bWFnZXMvMjAyNC0w/Ny8yMC0yMS1QdWZm/LShjKUJlbGdhaW1h/Z2UuanBnLndlYnA_/aXRvaz03Y0dZczRl/Nw',
         puff_photo: 'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw', 
@@ -15,12 +14,14 @@ new Vue({
     },  
 
     methods: {
-        ajouter_inventaire() {
-        if (this.objetRecupere === true) {
-            this.photos_inventaire.push(this.puff_photo);
-            this.objetRecupere = false; 
-            console.log(this.photos_inventaire)
-            }
+        ajouter_inventaire(nom_objet) {
+            this.photos_inventaire.push(nom_objet);
+            
+        },
+
+        retirer_inventaire(nom_objet) {
+            let index = photos_inventaire.indexOf(nom_objet);
+            photos_inventaire.splice(index, 1);
         },
 
         initMap() {
@@ -160,20 +161,31 @@ new Vue({
 
                 if (layer === imageLayer) {
 
-                    if(vm.objet === 'puff'){
+                    if(vm.objet_recupere === 'puff'){
                         texte.innerText = "Guetteur : Ah merci tu régales le sang";
                         bouton.innerText = "Suivant";
                         popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
+
+                        // bouton.addEventListener('click', () => {
+                        //                 texte.innerText = "Guetteur : Si tu veux après va la bas";
+                        //                 bouton.innerText = "Meric le sang !";
+                        //                 bouton.addEventListener('click', () => {
+                        //                     imageLayer1.setVisible(false),
+                        //                     popup.setPosition(undefined);
+                        //                     vm.retirer_inventaire(vm.puff_photo);
+                        // });
+                    // });
+
                     } else {
                         texte.innerText = "Guetteur : J'ai besoin d'une puff, reviens quand t'en auras une";
                         bouton.innerText = "Aller cherche une puff";
                         popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                     }
 
-                    bouton.onclick = () => {
+                    bouton.addEventListener('click', () => {
                         popup.setPosition(undefined);
 
-                        if(vm.objet !== 'puff'){
+                        if(vm.objet_recupere !== 'puff'){
                             let zoom = map.getView().getZoom();
 
                             if (zoom >= 9) {
@@ -182,7 +194,7 @@ new Vue({
                                 imageLayer1.setVisible(false);
                             }
                         }
-                    };
+                    });
 
                 } 
 
@@ -193,15 +205,14 @@ new Vue({
 
                     bouton.addEventListener('click', () => {
                         popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
-                        texte.innerText = "Puffman : c'est 10 balles par contre";
+                        texte.innerText = "Puffman : C'est 10 balles par contre";
                         bouton.innerText = "Payer 10€";
 
                        bouton.addEventListener('click', () => {
                                         imageLayer1.setVisible(false),
                                         popup.setPosition(undefined);
-                                        vm.objetRecupere = true;
-                                        vm.objet = 'puff';
-                                        vm.ajouter_inventaire();
+                                        vm.objet_recupere = 'puff';
+                                        vm.ajouter_inventaire(vm.puff_photo);
                         });
                     });
                 } 
