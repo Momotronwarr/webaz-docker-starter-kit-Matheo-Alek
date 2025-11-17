@@ -6,7 +6,7 @@ new Vue({
         guetteur_photo : 'https://imgs.search.brave.com/fOoCwlWf4rMtU1AQr4eyma6yR2gvrPorYW4_97YwGb8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLXByZW1p/dW0vaG9tbWUtY2Fn/b3VsZS1yZXNzZW1i/bGUtZXRyYW5nZW1l/bnQtY2xvc2UtdXAt/cG9ydHJhaXQtaXNv/bGUtbXVyLWJsYW5j/XzMyOTA3MC01Nzku/anBnP3NlbXQ9YWlz/X2h5YnJpZA',
         puffman_photo : 'https://imgs.search.brave.com/P28Yq3qq2soGI_CnzpLl9QJX0kX-OeuByx85RsRqftU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWMuYmUvZW4tbWFy/Y2hlL3NpdGVzL21j/LWVuLW1hcmNoZS9m/aWxlcy9zdHlsZXMv/aW1hZ2Vfc2xpZGVy/X3hsL3B1YmxpYy9p/bWFnZXMvMjAyNC0w/Ny8yMC0yMS1QdWZm/LShjKUJlbGdhaW1h/Z2UuanBnLndlYnA_/aXRvaz03Y0dZczRl/Nw',
         puff_photo: 'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw', 
-        _92i_photo : 'https://imgs.search.brave.com/B7x0vdMf2NaY_24CvAqGPiw4mYq969ToXCHkWkb6rHU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzExL2Vj/L2U3LzExZWNlN2Uy/NDg0OTgzMzhjNmE2/ZTk5YjYwZTZlMWNi/LmpwZw',
+        neuf2i : 'https://imgs.search.brave.com/B7x0vdMf2NaY_24CvAqGPiw4mYq969ToXCHkWkb6rHU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzExL2Vj/L2U3LzExZWNlN2Uy/NDg0OTgzMzhjNmE2/ZTk5YjYwZTZlMWNi/LmpwZw',
         photos_inventaire : [],
     },
 
@@ -167,24 +167,25 @@ new Vue({
                     texte.innerText = "Guetteur : Ah merci tu régales le sang";
                     bouton.innerText = "Suivant";
                     popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-
+                    
 
                     bouton.onclick = () => {
                         popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                         texte.innerText = "Guetteur : Si tu veux je connais un gars à BeauSevran va le voir et dis lui que tu viens de ma part";
                         bouton.innerText = "Ca marche le sanglier";
-
+                        
                        bouton.onclick = () => {
-                                        popup.setPosition(undefined);
-                                        vm.retirer_inventaire(vm.puff_photo);
-                                        imageLayer.setVisible(false);
+                                        popup.setPosition(undefined),
                                         image.setStyle(new ol.style.Style({
                                         image: new ol.style.Icon({
-                                            src: vm._92i_photo, 
+                                            src: vm.neuf2i,
                                             scale: 0.2
                                         })
-                                        }));
-                                        image.setGeometry(new ol.geom.Point(ol.proj.fromLonLat(BeauSevran)));
+                                    }));
+
+                                    image.setGeometry(new ol.geom.Point(ol.proj.fromLonLat(BeauSevran)));
+                                    imageLayer.setVisible(true);
+                                    imageLayer.getSource().changed(); 
                        }}
 
                     
@@ -195,23 +196,23 @@ new Vue({
                         texte.innerText = "Guetteur : J'ai besoin d'une puff, reviens quand t'en auras une";
                         bouton.innerText = "Aller cherche une puff";
                         popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-                    
-
-                    bouton.onclick = () => {
+                        bouton.onclick = () => {
                         popup.setPosition(undefined);
-
-                        if(vm.objet_recupere !== 'puff'){
-                            let zoom = map.getView().getZoom();
-
-                            if (zoom >= 9) {
-                                imageLayer1.setVisible(true);
-                            } else {
-                                imageLayer1.setVisible(false);
-                            }
+                        let zoom = map.getView().getZoom();
                         }
-                    };}
+                    };
 
                 } 
+                
+                map.getView().on('change:resolution', function () {
+                let zoom = map.getView().getZoom();
+
+                if (zoom >= 19) {
+                    imageLayer1.setVisible(true);
+                } else {
+                    imageLayer1.setVisible(false);
+                }
+                });
 
                 if(layer === imageLayer1){
                     texte.innerText = "Puffman : tu veux une puff ?";
