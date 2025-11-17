@@ -20,9 +20,11 @@ new Vue({
         },
 
         retirer_inventaire(nom_objet) {
-            let index = photos_inventaire.indexOf(nom_objet);
-            photos_inventaire.splice(index, 1);
-        },
+    let index = this.photos_inventaire.indexOf(nom_objet);
+    if (index !== -1) {
+        this.photos_inventaire.splice(index, 1);
+        }
+    },
 
         initMap() {
             let Sevranbedotte = [2.53483373, 48.9360525];
@@ -89,11 +91,11 @@ new Vue({
             map.addOverlay(popup);
             popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
 
-            bouton.addEventListener('click', () => {
+            bouton.onclick = () => {
                 texte.innerText = "La porte de la gare est fermée, il faut que tu récupères la clé. J'ai entendu dire qu'un guetteur avait des informations à la rue Salengro, va voir !";
                 popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
-                bouton.addEventListener('click', () => {popup.setPosition(undefined)})
-            });
+                bouton.onclick = () => {popup.setPosition(undefined)}
+            };
 
         
             let image = new ol.Feature({
@@ -162,27 +164,29 @@ new Vue({
                 if (layer === imageLayer) {
 
                     if(vm.objet_recupere === 'puff'){
-                        texte.innerText = "Guetteur : Ah merci tu régales le sang";
-                        bouton.innerText = "Suivant";
-                        popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
+                    texte.innerText = "Guetteur : Ah merci tu régales le sang";
+                    bouton.innerText = "Suivant";
+                    popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
 
-                        // bouton.addEventListener('click', () => {
-                        //                 texte.innerText = "Guetteur : Si tu veux après va la bas";
-                        //                 bouton.innerText = "Meric le sang !";
-                        //                 bouton.addEventListener('click', () => {
-                        //                     imageLayer1.setVisible(false),
-                        //                     popup.setPosition(undefined);
-                        //                     vm.retirer_inventaire(vm.puff_photo);
-                        // });
-                    // });
+                    bouton.onclick = () => {
+                        texte.innerText = "Guetteur : Si tu veux après va là-bas";
+                        bouton.innerText = "Merci le sang !";
 
-                    } else {
+                        bouton.onclick = () => {
+                            popup.setPosition(undefined);
+                            imageLayer1.setVisible(false);
+                            vm.retirer_inventaire(vm.puff_photo);
+                        };
+                    };
+                }
+                    
+                    else {
                         texte.innerText = "Guetteur : J'ai besoin d'une puff, reviens quand t'en auras une";
                         bouton.innerText = "Aller cherche une puff";
                         popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                     }
 
-                    bouton.addEventListener('click', () => {
+                    bouton.onclick = () => {
                         popup.setPosition(undefined);
 
                         if(vm.objet_recupere !== 'puff'){
@@ -194,7 +198,7 @@ new Vue({
                                 imageLayer1.setVisible(false);
                             }
                         }
-                    });
+                    };
 
                 } 
 
@@ -202,19 +206,20 @@ new Vue({
                     texte.innerText = "Puffman : tu veux une puff ?";
                     bouton.innerText = "Oui";
                     popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès))
-
-                    bouton.addEventListener('click', () => {
+                    
+                    bouton.onclick = () => {
                         popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
                         texte.innerText = "Puffman : C'est 10 balles par contre";
                         bouton.innerText = "Payer 10€";
 
-                       bouton.addEventListener('click', () => {
+                       bouton.onclick = () => {
                                         imageLayer1.setVisible(false),
                                         popup.setPosition(undefined);
                                         vm.objet_recupere = 'puff';
                                         vm.ajouter_inventaire(vm.puff_photo);
-                        });
-                    });
+                                       
+                        };
+                    };
                 } 
 
             }); 
