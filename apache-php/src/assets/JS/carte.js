@@ -3,11 +3,22 @@ new Vue({
 
     data: {
         objet_recupere : '',     
+        code_gare_photo : 'https://imgs.search.brave.com/fXVPepuYffpevKQAspACjbTJHA7FGflcu1r_9R1-xpg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YXJy/aW9yc2RpdmluZS5j/b20vY2RuL3Nob3Av/YXJ0aWNsZXMvMTIz/NC1udW1iZXItcGF0/dGVybi1pbnRlcnBy/ZXRhdGlvbl8xMDI0/eDEwMjQuanBnP3Y9/MTcxOTM5MDU5Mw',
+        gare_sevran : 'https://imgs.search.brave.com/vldMYz3y2EV-SizLXaHHX18rCs_qhJYianKf0WENruU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9maWxl/cy5zdHJ1Y3R1cmFl/Lm5ldC9maWxlcy8z/NTBoaWdoL3dpa2lw/ZWRpYS9zZXZyYW5f/Z2FyZV9kZV9zZXZy/YW5fYmVhdWRvdHRl/c18wMS5qcGc',
         guetteur_photo : 'https://imgs.search.brave.com/fOoCwlWf4rMtU1AQr4eyma6yR2gvrPorYW4_97YwGb8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLXByZW1p/dW0vaG9tbWUtY2Fn/b3VsZS1yZXNzZW1i/bGUtZXRyYW5nZW1l/bnQtY2xvc2UtdXAt/cG9ydHJhaXQtaXNv/bGUtbXVyLWJsYW5j/XzMyOTA3MC01Nzku/anBnP3NlbXQ9YWlz/X2h5YnJpZA',
         puffman_photo : 'https://imgs.search.brave.com/P28Yq3qq2soGI_CnzpLl9QJX0kX-OeuByx85RsRqftU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWMuYmUvZW4tbWFy/Y2hlL3NpdGVzL21j/LWVuLW1hcmNoZS9m/aWxlcy9zdHlsZXMv/aW1hZ2Vfc2xpZGVy/X3hsL3B1YmxpYy9p/bWFnZXMvMjAyNC0w/Ny8yMC0yMS1QdWZm/LShjKUJlbGdhaW1h/Z2UuanBnLndlYnA_/aXRvaz03Y0dZczRl/Nw',
         puff_photo: 'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw', 
         neuf2i : 'https://imgs.search.brave.com/B7x0vdMf2NaY_24CvAqGPiw4mYq969ToXCHkWkb6rHU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzExL2Vj/L2U3LzExZWNlN2Uy/NDg0OTgzMzhjNmE2/ZTk5YjYwZTZlMWNi/LmpwZw',
+        dealer_photo: 'https://imgs.search.brave.com/k4E_9WKKhcu8CGzCB9QhUAFCFAjVYYbIc6QmTCWMng4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTY4/MzgwNjk1L2ZyL3Bo/b3RvL2RlYWxlci5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/R1dIcnh3R3UwWkda/ZVRDYjM5RVN6dm1r/ZXpkM1pzVDFhWG9S/ZzZyUUJiVT0',
+        barrette_photo: 'https://imgs.search.brave.com/ZunKvC2ARAEJqRP-qpjnoL19_lqG7_PaoBBBSGR31e8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/OTc0LzEyMi9zbWFs/bC9jdXRvdXQtY2Fu/bmFiaXMtbGVhZi1z/aW1wbGljaXR5LXdh/dGVyY29sb3ItcGFp/bnRpbmctZnJlZS1w/bmcucG5n',
+        vendeur_photo : 'https://imgs.search.brave.com/kjpK4-yl-LDK8jNzSXSS6j3Xq5qQJA12e2cJKF1eFxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLWdyYXR1/aXRlL3NvdXJpYW50/LWNhaXNzaWVyLWFm/cm8tYW1lcmljYWlu/LWFzc2lzLWNhaXNz/ZV83NDg1NS0zMjk3/LmpwZz9zZW10PWFp/c19oeWJyaWQ', 
+        shampoing_photo : 'https://imgs.search.brave.com/GHRzXCkqkX4wi694qsBqVxnpLZxWxmY4m_szgvS-Zvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hZnJv/Y2xhc3MuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA4/L0RvcC1TaGFtcG9v/aW5nLXRyZXMtZG91/eC1hdXgtT2V1ZnMt/NDAwbWwuanBn',
         photos_inventaire : [],
+        guetteur_rencontre: true,
+        neuf2i_rencontre: false,
+        puffman_rencontre: false,
+        dealer_rencontre: false,
+        vendeur_rencontre: false,
     },
 
     mounted() {
@@ -17,21 +28,22 @@ new Vue({
     methods: {
         ajouter_inventaire(nom_objet) {
             this.photos_inventaire.push(nom_objet);
-            
         },
 
         retirer_inventaire(nom_objet) {
-    let index = this.photos_inventaire.indexOf(nom_objet);
-    if (index !== -1) {
-        this.photos_inventaire.splice(index, 1);
-        }
-    },
+            let index = this.photos_inventaire.indexOf(nom_objet);
+            if (index !== -1) {
+                this.photos_inventaire.splice(index, 1);
+            }
+        },
 
         initMap() {
             let Sevranbedotte = [2.53483373, 48.9360525];
             let rueRogerSalengro = [2.5355004489383908, 48.94264317994083];
             let Jean_Jaurès = [2.5160858532768344, 48.94067724969696];
-            let BeauSevran = [2.527514372439706, 48.948801717836005]
+            let BeauSevran = [2.527514372439706, 48.948801717836005];
+            let quartierDealer = [2.533857385931753, 48.94847960265787];
+            let carrefour = [2.5281698795516623, 48.94852626971482];
 
             let map = new ol.Map({
                 target: 'map',
@@ -46,16 +58,13 @@ new Vue({
                 })
             });
 
-            // Pour nous aider a trouver les coordonnées d'un point 
             map.on('click', function (evt) {
-            let coord = evt.coordinate;
-            let lonLat = ol.proj.toLonLat(coord);
-            console.log('Longitude / Latitude :', lonLat);
-        });
-            
+                let coord = evt.coordinate;
+                let lonLat = ol.proj.toLonLat(coord);
+                console.log('Longitude / Latitude :', lonLat);
+            });
 
-
-           
+            // Popup principal
             let el = document.createElement('div');
             el.style.backgroundColor = 'white';
             el.style.padding = '10px 10px';
@@ -97,162 +106,311 @@ new Vue({
                 bouton.onclick = () => {popup.setPosition(undefined)}
             };
 
-        
-            let image = new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.fromLonLat(rueRogerSalengro))
+            // GUETTEUR
+            let imageGuetteur = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(rueRogerSalengro))
             });
 
-            image.setStyle(new ol.style.Style({
+            imageGuetteur.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
                     src: this.guetteur_photo,
-                    scale : 0.2
+                    scale: 0.2
                 })
             }));
 
-            let imageLayer = new ol.layer.Vector({
+            let layerGuetteur = new ol.layer.Vector({
                 source: new ol.source.Vector({
-                    features: [image]
-        
+                    features: [imageGuetteur]
                 })
             });
 
-            map.addLayer(imageLayer);
+            map.addLayer(layerGuetteur);
+            layerGuetteur.setVisible(false); 
 
-            imageLayer.setVisible(false); 
+            // PUFFMAN
+            let imagePuffman = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(Jean_Jaurès))
+            });
 
-                        let image1 = new ol.Feature({
-                        geometry: new ol.geom.Point(ol.proj.fromLonLat(Jean_Jaurès))
-                        });
+            imagePuffman.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: this.puffman_photo,
+                    scale: 0.2
+                })
+            }));
 
-                        image1.setStyle(new ol.style.Style({
-                            image: new ol.style.Icon({
-                                src: this.puffman_photo,
-                                scale : 0.2
-                            })
-                        }));
+            let layerPuffman = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [imagePuffman]
+                })
+            });
 
-                        let imageLayer1 = new ol.layer.Vector({
-                            source: new ol.source.Vector({
-                                features: [image1]
+            map.addLayer(layerPuffman);
+            layerPuffman.setVisible(false);
+
+            // NEUF2I
+            let imageNeuf2i = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(BeauSevran))
+            });
+
+            imageNeuf2i.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: this.neuf2i,
+                    scale: 0.2
+                })
+            }));
+
+            let layerNeuf2i = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [imageNeuf2i]
+                })
+            });
+
+            map.addLayer(layerNeuf2i);
+            layerNeuf2i.setVisible(false);
+
+            // DEALER
+            let imageDealer = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(quartierDealer))
+            });
+
+            imageDealer.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: this.dealer_photo,
+                    scale: 0.2
+                })
+            }));
+
+            let layerDealer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [imageDealer]
+                })
+            });
+
+            map.addLayer(layerDealer);
+            layerDealer.setVisible(false);
+
+            // VENDEUR
+            let imageVendeur = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(carrefour))
+            });
+
+            imageVendeur.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: this.vendeur_photo,
+                    scale: 0.2
+                })
+            }));
+
+            let layerVendeur = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [imageVendeur]
+                })
+            });
+
+            map.addLayer(layerVendeur);
+            layerVendeur.setVisible(false);
+
+            // Gestion du zoom pour afficher les personnages
+            map.getView().on('change:resolution', () => {
+                let zoom = map.getView().getZoom();
+
+                if (zoom >= 9) {
+                    // Guetteur visible seulement s'il est rencontré (true au début)
+                    if (this.guetteur_rencontre) {
+                        layerGuetteur.setVisible(true);
+                    }
                     
-                            })
-                        });
+                    // Puffman visible seulement si débloqué et pas encore acheté
+                    if (this.puffman_rencontre && this.objet_recupere !== 'puff') {
+                        layerPuffman.setVisible(true);
+                    }
 
-                        map.addLayer(imageLayer1);
+                    // Neuf2i visible s'il est rencontré
+                    if (this.neuf2i_rencontre) {
+                        layerNeuf2i.setVisible(true);
+                    }
 
-                        imageLayer1.setVisible(false); 
+                    // Dealer visible s'il est rencontré
+                    if (this.dealer_rencontre && this.objet_recupere !== 'barrette') {
+                        layerDealer.setVisible(true);
+                    }
 
- 
-
-            map.getView().on('change:resolution', function () {
-            let zoom = map.getView().getZoom();
-
-            if (zoom >= 9) {
-                imageLayer.setVisible(true);
-            } else {
-                imageLayer.setVisible(false);
-            }
+                    // Vendeur visible s'il est rencontré
+                    if (this.vendeur_rencontre && this.objet_recupere !== 'oeufs doux') {
+                        layerVendeur.setVisible(true);
+                    }
+                } else {
+                    layerGuetteur.setVisible(false);
+                    layerPuffman.setVisible(false);
+                    layerNeuf2i.setVisible(false);
+                    layerDealer.setVisible(false);
+                    layerVendeur.setVisible(false);
+                }
             });
 
             let vm = this;
 
-
-
+            // INTERACTIONS
             map.on('click', function (evt) {
-            map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+                map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
 
-                if (layer === imageLayer) {
-
-                    if (vm.objet_recupere === 'puff'){
-                    texte.innerText = "Guetteur : Ah merci tu régales le sang";
-                    bouton.innerText = "Suivant";
-                    popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-                    
-
-                    bouton.onclick = () => {
-                        popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-                        texte.innerText = "Guetteur : Si tu veux je connais un gars à BeauSevran va le voir et dis lui que tu viens de ma part";
-                        bouton.innerText = "Ca marche le sanglier";
-                        
-                       bouton.onclick = () => {
-                                        popup.setPosition(undefined),
-                                        image.setStyle(new ol.style.Style({
-                                        image: new ol.style.Icon({
-                                            src: vm.neuf2i,
-                                            scale: 0.2
-                                        })
-                                    }));
-
-                                    image.setGeometry(new ol.geom.Point(ol.proj.fromLonLat(BeauSevran)));
-                                    imageLayer.setVisible(true);
-                                    imageLayer.getSource().changed(); 
-                       }}
-
-                    
-                        
-                }
-                    
-                    else {
-                        texte.innerText = "Guetteur : J'ai besoin d'une puff, reviens quand t'en auras une";
-                        bouton.innerText = "Aller cherche une puff";
-                        popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-                        bouton.onclick = () => {
-                        popup.setPosition(undefined);
-                        let zoom = map.getView().getZoom();
-                        }
-                    };
-
-                } 
-
-                map.getView().on('change:resolution', function () {
-                    
-                if (vm.objet_recupere === 'puff') {
-                    imageLayer1.setVisible(false); 
-                    return;
-                }
-
-                let zoom = map.getView().getZoom();
-                if (zoom >= 9) {
-                    imageLayer1.setVisible(true);
-                } else {
-                    imageLayer1.setVisible(false);
-                }
-            });
-
-                if(layer === imageLayer1){
-                    texte.innerText = "Puffman : tu veux une puff ?";
-                    bouton.innerText = "Oui";
-                    popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès))
-                    
-                    bouton.onclick = () => {
+                    // ========== INTERACTION PUFFMAN ==========
+                    if(layer === layerPuffman){
+                        texte.innerText = "Puffman : tu veux une puff ?";
+                        bouton.innerText = "Oui";
                         popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
-                        texte.innerText = "Puffman : C'est 10 balles par contre";
-                        bouton.innerText = "Payer 10€";
+                        
+                        bouton.onclick = () => {
+                            popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
+                            texte.innerText = "Puffman : C'est 10 balles par contre";
+                            bouton.innerText = "Payer 10€";
 
-                       bouton.onclick = () => {
-                                        imageLayer1.setVisible(false),
-                                        popup.setPosition(undefined);
-                                        vm.objet_recupere = 'puff';
-                                        vm.ajouter_inventaire(vm.puff_photo);
-                                        vm.ajouter_inventaire(vm.puff_photo);
-                                        vm.ajouter_inventaire(vm.puff_photo);
-                                        vm.ajouter_inventaire(vm.puff_photo);
-                                        vm.ajouter_inventaire(vm.puff_photo);
-                                        
-                                        
+                            bouton.onclick = () => {
+                                layerPuffman.setVisible(false);
+                                popup.setPosition(undefined);
+                                vm.objet_recupere = 'puff';
+                                vm.ajouter_inventaire(vm.puff_photo);
+                                vm.puffman_rencontre = false;
+                            };
                         };
-                    };
-                } 
+                    }
 
+                    // ========== INTERACTION GUETTEUR ==========
+                    if (layer === layerGuetteur) {
+                        if (vm.objet_recupere === 'puff'){
+                            texte.innerText = "Guetteur : Ah merci tu régales le sang";
+                            bouton.innerText = "Suivant";
+                            popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
+                            
+                            bouton.onclick = () => {
+                                popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
+                                texte.innerText = "Guetteur : Si tu veux je connais un gars à BeauSevran va le voir et dis lui que tu viens de ma part";
+                                bouton.innerText = "Ca marche le sanglier";
+                                
+                                bouton.onclick = () => {
+                                    popup.setPosition(undefined);
+                                    vm.retirer_inventaire(vm.puff_photo);
+                                    vm.objet_recupere = '';
+                                    vm.guetteur_rencontre = false;
+                                    vm.neuf2i_rencontre = true;
+                                    layerGuetteur.setVisible(false);
+                                    layerNeuf2i.setVisible(true);
+                                };
+                            };
+                        } else {
+                            texte.innerText = "Guetteur : J'ai besoin d'une puff, reviens quand t'en auras une";
+                            bouton.innerText = "Aller chercher une puff";
+                            popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
+                            bouton.onclick = () => {
+                                popup.setPosition(undefined);
+                                vm.puffman_rencontre = true;
+                                layerPuffman.setVisible(true);
+                            };
+                        }
+                    }
+
+                    // ========== INTERACTION NEUF2I ==========
+                    if (layer === layerNeuf2i) {
+                        if (vm.objet_recupere === 'oeufs doux'){
+                            texte.innerText = "Neuf2i : Ah ouais merci beaucoup tu me sauves !";
+                            bouton.innerText = "Donner le shampoing";
+                            popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            
+                            bouton.onclick = () => {
+                                popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                                vm.retirer_inventaire(vm.shampoing_photo);
+                                texte.innerText = "Neuf2i : Merci, va à la gare je te donne le code.";
+                                bouton.innerText = "Ok vsy !";
+                                bouton.onclick = () => {
+                                    vm.ajouter_inventaire(vm.code_gare_photo);
+                                    popup.setPosition(undefined);
+                                    vm.neuf2i_rencontre = false;
+                                    layerNeuf2i.setVisible(false);
+                            
+                                };
+                            };
+                        } else if (vm.objet_recupere === 'barrette'){
+                            texte.innerText = "Neuf2i : Mais putain Farouk ! C'est quoi ce que tu me donnes moi je voulais un shampoing aux oeufs doux !";
+                            bouton.innerText = "Suivant";
+                            popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            
+                            bouton.onclick = () => {
+                                popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                                texte.innerText = "Neuf2i : J'ai des cheveux de beurettes, toi t'y connais rien t'es chauve";
+                                bouton.innerText = "Mais c'est un quiproquo";
+                                
+                                bouton.onclick = () => {
+                                    popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                                    texte.innerText = "Neuf2i : Je parle pas Japonais désolé quiproquo tout ça je connais pas. Va me chercher mon shampoing maintenant";
+                                    bouton.innerText = "Ok déso le sang";
+                                    
+                                    bouton.onclick = () => {
+                                        popup.setPosition(undefined);
+                                        vm.objet_recupere = '';
+                                        vm.vendeur_rencontre = true;
+                                        vm.dealer_rencontre = false;
+                                        layerDealer.setVisible(false);
+                                        layerVendeur.setVisible(true);
+                                    };
+                                };
+                            };
+                        } else {
+                            texte.innerText = "Neuf2i : J'ai besoin d'un 'zedou', tu peux m'en ramener un ?";
+                            bouton.innerText = "Je vais voir ce que je peux faire";
+                            popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            bouton.onclick = () => {
+                                popup.setPosition(undefined);
+                                vm.dealer_rencontre = true;
+                                layerDealer.setVisible(true);
+                            };
+                        }
+                    }
+
+                    // ========== INTERACTION DEALER ==========
+                    if(layer === layerDealer){
+                        texte.innerText = "Dealer : Ouais tu veux du sh*t chef ??";
+                        bouton.innerText = "Oui s'il vous plait";
+                        popup.setPosition(ol.proj.fromLonLat(quartierDealer));
+                        
+                        bouton.onclick = () => {
+                            popup.setPosition(ol.proj.fromLonLat(quartierDealer));
+                            texte.innerText = "Dealer : Ça fait 50 balles batard";
+                            bouton.innerText = "Payer 50€";
+
+                            bouton.onclick = () => {
+                                layerDealer.setVisible(false);
+                                popup.setPosition(undefined);
+                                vm.objet_recupere = 'barrette';
+                                vm.ajouter_inventaire(vm.barrette_photo);
+                                vm.dealer_rencontre = false;
+                            };
+                        };
+                    }
+
+                    // ========== INTERACTION VENDEUR ==========
+                    if(layer === layerVendeur){
+                        texte.innerText = "Vendeur carrefour : Vous cherchez quoi ?";
+                        bouton.innerText = "Un shampoing aux oeufs doux";
+                        popup.setPosition(ol.proj.fromLonLat(carrefour));
+                        
+                        bouton.onclick = () => {
+                            popup.setPosition(ol.proj.fromLonLat(carrefour));
+                            texte.innerText = "Vendeur carrefour : 3,50€ svp";
+                            bouton.innerText = "Payer 3,50€";
+
+                            bouton.onclick = () => {
+                                layerVendeur.setVisible(false);
+                                popup.setPosition(undefined);
+                                vm.objet_recupere = 'oeufs doux';
+                                vm.ajouter_inventaire(vm.shampoing_photo);
+                                vm.vendeur_rencontre = false;
+                            };
+                        };
+                    }
+
+                }); 
             }); 
-        }); 
         }                  
     }                      
-});                         
-       
-
-        
-            
-
-            
-  
+});
