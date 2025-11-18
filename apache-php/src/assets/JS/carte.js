@@ -106,6 +106,38 @@ new Vue({
                 bouton.onclick = () => {popup.setPosition(undefined)}
             };
 
+            // GARE SEVRAN
+            let imageGare_sevran = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(Sevranbedotte))
+            });
+
+            imageGare_sevran.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: this.gare_sevran,
+                    scale: 0.25
+                })
+            }));
+
+            let layerGare_sevran = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [imageGare_sevran]
+                })
+            });
+
+            map.addLayer(layerGare_sevran);
+            layerGare_sevran.setVisible(true);
+
+
+            // map.getView().on('change:resolution', () => {
+            //     let zoom = map.getView().getZoom();
+
+            //     if (zoom >= 9) {layerGare_sevran.setVisible(true);
+
+            //     }
+            // })
+
+
+
             // GUETTEUR
             let imageGuetteur = new ol.Feature({
                 geometry: new ol.geom.Point(ol.proj.fromLonLat(rueRogerSalengro))
@@ -254,6 +286,24 @@ new Vue({
             // INTERACTIONS
             map.on('click', function (evt) {
                 map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+
+
+                    // ========== INTERACTION GARE ==========
+                    if(layer === layerGare_sevran){
+                        const code = prompt("Entrez le code à 4 chiffres :");
+                        if (code === "1234") {
+                            alert("Code correct !");
+                            texte.innerText = "Bravo tu as réussi à sortir de Sevran ! Tu es enfin libre !!";
+                            bouton.innerText = "Sortir de Sevran";
+                            popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
+                            bouton.onclick = () => {
+                            windows.location.replace("../../views/menu.php");
+                            };
+
+                        } else {
+                            alert("Code incorrect");
+                        }
+                    }
 
                     // ========== INTERACTION PUFFMAN ==========
                     if(layer === layerPuffman){
