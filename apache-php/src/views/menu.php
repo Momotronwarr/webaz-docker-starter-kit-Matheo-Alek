@@ -31,10 +31,38 @@
         <p>Etes-vous prêt(e) à vous prendre des "Ça vient d'où chef ?</p>
     </div>
     
-    <form action="/prez_musical" method="POST">
-        <button type="submit" title="Présentation musical">▶️ Présentation de Sevran​</button>
-    </form>
-    
+    <?php
+    $joueurs = [];
+    if (isset($GLOBALS['link'])) {
+        $res = @pg_query($GLOBALS['link'], "SELECT pseudo, score FROM tableau_des_scores ORDER BY score DESC LIMIT 5");
+        if ($res) {
+            $joueurs = pg_fetch_all($res) ?: [];
+        }
+    }
+    ?>
+
+    <?php if (!empty($joueurs)): ?>
+        <h2>Tableau des Scores </h2>
+        <table style="border-collapse:collapse; width:100%; max-width:800px;">
+            <thead>
+                <tr>
+                    <th style="border:1px solid #ddd;padding:6px;">Pseudo</th>
+                    <th style="border:1px solid #ddd;padding:6px;">Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1; foreach ($joueurs as $row): ?>
+                    <tr>
+                        <td style="border:1px solid #ddd;padding:6px;"><?php echo htmlspecialchars($row['pseudo'] ?? ''); ?></td>
+                        <td style="border:1px solid #ddd;padding:6px;"><?php echo htmlspecialchars($row['score'] ?? ''); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Aucun score à afficher pour le moment.</p>
+    <?php endif; ?>
+
 </body>
 </html>
 
