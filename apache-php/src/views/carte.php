@@ -14,7 +14,7 @@
         <div id="map" class="map"></div>
         <div id = "inventaire">
             <div v-for="(photo, index) in photos_inventaire" :id="'image' + (index + 1)">
-                <img :src="photo">
+                <img :src="photo" @click="afficher_description(photo)" >
             </div>
         </div>
     </div>

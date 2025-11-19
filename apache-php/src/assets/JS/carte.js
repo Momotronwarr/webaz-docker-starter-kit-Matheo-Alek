@@ -19,6 +19,14 @@ new Vue({
         puffman_rencontre: false,
         dealer_rencontre: false,
         vendeur_rencontre: false,
+
+
+        descriptions_objets: {
+        'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw': 'Puff',
+        'https://imgs.search.brave.com/ZunKvC2ARAEJqRP-qpjnoL19_lqG7_PaoBBBSGR31e8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/OTc0LzEyMi9zbWFs/bC9jdXRvdXQtY2Fu/bmFiaXMtbGVhZi1z/aW1wbGljaXR5LXdh/dGVyY29sb3ItcGFp/bnRpbmctZnJlZS1w/bmcucG5n': 'Barrette',
+        'https://imgs.search.brave.com/GHRzXCkqkX4wi694qsBqVxnpLZxWxmY4m_szgvS-Zvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hZnJv/Y2xhc3MuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA4/L0RvcC1TaGFtcG9v/aW5nLXRyZXMtZG91/eC1hdXgtT2V1ZnMt/NDAwbWwuanBn': 'Shampoing aux oeufs doux, pour cheveux de beurettes',
+        'https://imgs.search.brave.com/fXVPepuYffpevKQAspACjbTJHA7FGflcu1r_9R1-xpg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YXJy/aW9yc2RpdmluZS5j/b20vY2RuL3Nob3Av/YXJ0aWNsZXMvMTIz/NC1udW1iZXItcGF0/dGVybi1pbnRlcnBy/ZXRhdGlvbl8xMDI0/eDEwMjQuanBnP3Y9/MTcxOTM5MDU5Mw': 'Code de la gare : 1234'
+    },
     },
 
     mounted() {
@@ -37,11 +45,19 @@ new Vue({
             }
         },
 
+        afficher_description(photo_url) {
+        let description = this.descriptions_objets[photo_url];
+        if (description) {
+            alert(description);
+        }  
+    },
+
+
         initMap() {
             let Sevranbedotte = [2.53483373, 48.9360525];
             let rueRogerSalengro = [2.5355004489383908, 48.94264317994083];
             let Jean_Jaurès = [2.5160858532768344, 48.94067724969696];
-            let BeauSevran = [2.527514372439706, 48.948801717836005];
+            let BeauSevran = [2.5281093734656395, 48.94984489166902];
             let quartierDealer = [2.533857385931753, 48.94847960265787];
             let carrefour = [2.5281698795516623, 48.94852626971482];
 
@@ -63,8 +79,8 @@ new Vue({
                 let lonLat = ol.proj.toLonLat(coord);
                 console.log('Longitude / Latitude :', lonLat);
             });
+            
 
-            // Popup principal
             let el = document.createElement('div');
             el.style.backgroundColor = 'white';
             el.style.padding = '10px 10px';
@@ -243,32 +259,28 @@ new Vue({
             map.addLayer(layerVendeur);
             layerVendeur.setVisible(false);
 
-            // Gestion du zoom pour afficher les personnages
+
             map.getView().on('change:resolution', () => {
                 let zoom = map.getView().getZoom();
 
                 if (zoom >= 9) {
-                    // Guetteur visible seulement s'il est rencontré (true au début)
                     if (this.guetteur_rencontre) {
                         layerGuetteur.setVisible(true);
                     }
                     
-                    // Puffman visible seulement si débloqué et pas encore acheté
                     if (this.puffman_rencontre && this.objet_recupere !== 'puff') {
                         layerPuffman.setVisible(true);
                     }
 
-                    // Neuf2i visible s'il est rencontré
                     if (this.neuf2i_rencontre) {
                         layerNeuf2i.setVisible(true);
                     }
 
-                    // Dealer visible s'il est rencontré
                     if (this.dealer_rencontre && this.objet_recupere !== 'barrette') {
                         layerDealer.setVisible(true);
                     }
 
-                    // Vendeur visible s'il est rencontré
+
                     if (this.vendeur_rencontre && this.objet_recupere !== 'oeufs doux') {
                         layerVendeur.setVisible(true);
                     }
@@ -288,7 +300,7 @@ new Vue({
                 map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
 
 
-                    // ========== INTERACTION GARE ==========
+                    // GARE 
                     if(layer === layerGare_sevran){
                         const code = prompt("Entrez le code à 4 chiffres :");
                         if (code === "1234") {
@@ -297,7 +309,7 @@ new Vue({
                             bouton.innerText = "Sortir de Sevran";
                             popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
                             bouton.onclick = () => {
-                            windows.location.replace("../../views/menu.php");
+                                
                             };
 
                         } else {
@@ -305,7 +317,7 @@ new Vue({
                         }
                     }
 
-                    // ========== INTERACTION PUFFMAN ==========
+                    // PUFFMAN 
                     if(layer === layerPuffman){
                         texte.innerText = "Puffman : tu veux une puff ?";
                         bouton.innerText = "Oui";
@@ -326,7 +338,7 @@ new Vue({
                         };
                     }
 
-                    // ========== INTERACTION GUETTEUR ==========
+                    // GUETTEUR 
                     if (layer === layerGuetteur) {
                         if (vm.objet_recupere === 'puff'){
                             texte.innerText = "Guetteur : Ah merci tu régales le sang";
@@ -360,7 +372,7 @@ new Vue({
                         }
                     }
 
-                    // ========== INTERACTION NEUF2I ==========
+                    // 92I 
                     if (layer === layerNeuf2i) {
                         if (vm.objet_recupere === 'oeufs doux'){
                             texte.innerText = "Neuf2i : Ah ouais merci beaucoup tu me sauves !";
@@ -417,7 +429,7 @@ new Vue({
                         }
                     }
 
-                    // ========== INTERACTION DEALER ==========
+                    // DEALER
                     if(layer === layerDealer){
                         texte.innerText = "Dealer : Ouais tu veux du sh*t chef ??";
                         bouton.innerText = "Oui s'il vous plait";
@@ -438,7 +450,7 @@ new Vue({
                         };
                     }
 
-                    // ========== INTERACTION VENDEUR ==========
+                    // VENDEUR
                     if(layer === layerVendeur){
                         texte.innerText = "Vendeur carrefour : Vous cherchez quoi ?";
                         bouton.innerText = "Un shampoing aux oeufs doux";
