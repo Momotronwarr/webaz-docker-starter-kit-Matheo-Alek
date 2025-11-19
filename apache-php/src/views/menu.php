@@ -12,7 +12,7 @@
     </div>
 
     <div id="intro"> 
-        <p>Bienvenue sur le jeu de Sevran !</p>
+        <p>Bienvenue sur l'escape game de Sevran !</p>
     </div>
     <div id="texte">
         <p>(on modifiera apres on mettera un vrai texte)</p>

@@ -11,6 +11,7 @@
 </head>
 <body>
     <div id="app">
+        <div id="chrono" aria-live="polite">00:00</div>
         <div id="map" class="map"></div>
         <div id = "inventaire">
             <div v-for="(photo, index) in photos_inventaire" :id="'image' + (index + 1)">
@@ -19,7 +20,5 @@
         </div>
     </div>
     <script src="\assets\JS\carte.js"></script>
-
-         
 </body>
 </html>

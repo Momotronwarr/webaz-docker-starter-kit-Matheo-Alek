@@ -53,6 +53,16 @@ Flight::route('/test-db', function () {
     Flight::json($results);
 });
 
+// API pour récupérer les objets du jeu depuis la table objets_jeu
+Flight::route('/api/objets', function() {
+    global $link;
+
+    $sql = 'SELECT id, nom, type_objet, description, image_url, coordonnees_lat, coordonnees_lon, zoom_minimal, est_ramassable FROM objets_jeu ORDER BY id';
+    $res = @pg_query($link, $sql);
+    $rows = $res ? pg_fetch_all($res) : [];
+    Flight::json($rows ?: []);
+});
+
 Flight::route('/carte', function() {
     Flight::render('carte');
 });

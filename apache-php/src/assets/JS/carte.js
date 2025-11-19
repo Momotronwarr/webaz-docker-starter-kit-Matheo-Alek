@@ -31,9 +31,77 @@ new Vue({
 
     mounted() {
         this.initMap();
+        if (typeof this.startChrono === 'function') this.startChrono();
     },  
 
     methods: {
+        startChrono() {
+            const el = document.getElementById('chrono');
+            if (!el) return;
+
+            const storageKey = 'chronometreStart';
+            let start = sessionStorage.getItem(storageKey);
+            let firstStart = false;
+            if (!start) {
+                start = Date.now().toString();
+                sessionStorage.setItem(storageKey, start);
+                firstStart = true;
+            }
+            start = parseInt(start, 10);
+
+            function formatTime(s) {
+                const h = Math.floor(s / 3600);
+                const m = Math.floor((s % 3600) / 60).toString().padStart(2, '0');
+                const sec = (s % 60).toString().padStart(2, '0');
+                return h > 0 ? `${h}:${m}:${sec}` : `${m}:${sec}`;
+            }
+
+            let intervalId = null;
+            function update() {
+                const elapsed = Math.floor((Date.now() - start) / 1000);
+                el.textContent = formatTime(elapsed);
+                window.dispatchEvent(new CustomEvent('timer:tick', { detail: { elapsed } }));
+            }
+
+            update();
+            intervalId = setInterval(update, 1000);
+
+            if (firstStart) {
+                window.dispatchEvent(new Event('timer:started'));
+            }
+
+            // expose minimal API
+            window.gameTimer = {
+                getElapsed: function () { return Math.floor((Date.now() - start) / 1000); },
+                stop: function () { clearInterval(intervalId); },
+                reset: function () {
+                    start = Date.now();
+                    sessionStorage.setItem(storageKey, start.toString());
+                    update();
+                    if (!intervalId) intervalId = setInterval(update, 1000);
+                }
+            };
+        },
+
+        async loadObjects(map) {
+            try {
+                const res = await fetch('/api/objets');
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const objs = await res.json();
+                if (!Array.isArray(objs)) return;
+                objs.forEach(o => {
+                    // certains champs peuvent être renvoyés en string 't'/'f' pour booleans
+                    if (o.est_ramassable === 't') o.est_ramassable = true;
+                    if (o.est_ramassable === 'f') o.est_ramassable = false;
+                    // ajouter l'objet à la carte
+                    try { addObjectToMap(o); } catch (e) { console.warn('addObjectToMap failed', e); }
+                });
+            } catch (err) {
+                console.error('Erreur loadObjects:', err);
+                throw err;
+            }
+        },
+
         ajouter_inventaire(nom_objet) {
             this.photos_inventaire.push(nom_objet);
         },
@@ -79,6 +147,9 @@ new Vue({
                 let lonLat = ol.proj.toLonLat(coord);
                 console.log('Longitude / Latitude :', lonLat);
             });
+
+            
+            this.loadObjects(map).catch(err => console.error('Erreur:', err));
             
 
             let el = document.createElement('div');
@@ -295,6 +366,39 @@ new Vue({
 
             let vm = this;
 
+            const addObjectToMap = (obj) => {
+                if (!obj || !obj.coordonnees_lat || !obj.coordonnees_lon) return;
+                const lon = parseFloat(obj.coordonnees_lon);
+                const lat = parseFloat(obj.coordonnees_lat);
+                const feature = new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+                    nom: obj.nom,
+                    description: obj.description,
+                    type_objet: obj.type_objet,
+                    est_ramassable: obj.est_ramassable
+                });
+
+                feature.setStyle(new ol.style.Style({
+                    image: new ol.style.Icon({
+                        src: obj.image_url,
+                        scale: 0.16
+                    })
+                }));
+
+                const layer = new ol.layer.Vector({
+                    source: new ol.source.Vector({ features: [feature] })
+                });
+                map.addLayer(layer);
+
+                map.on('singleclick', function(evt) {
+                    map.forEachFeatureAtPixel(evt.pixel, function(f, l) {
+                        if (f === feature) {
+                            alert((f.get('description') || 'Objet') + "\n(nom: " + f.get('nom') + ")");
+                        }
+                    });
+                });
+            };
+
             // INTERACTIONS
             map.on('click', function (evt) {
                 map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
@@ -419,7 +523,7 @@ new Vue({
                             };
                         } else {
                             texte.innerText = "Neuf2i : J'ai besoin d'un 'zedou', tu peux m'en ramener un ?";
-                            bouton.innerText = "Je vais voir ce que je peux faire";
+                            bouton.innerText = "Moi: Je vais voir ce que je peux faire";
                             popup.setPosition(ol.proj.fromLonLat(BeauSevran));
                             bouton.onclick = () => {
                                 popup.setPosition(undefined);
@@ -437,7 +541,7 @@ new Vue({
                         
                         bouton.onclick = () => {
                             popup.setPosition(ol.proj.fromLonLat(quartierDealer));
-                            texte.innerText = "Dealer : Ça fait 50 balles batard";
+                            texte.innerText = "Dealer : Ça fait 50 balles";
                             bouton.innerText = "Payer 50€";
 
                             bouton.onclick = () => {
@@ -470,6 +574,7 @@ new Vue({
                             };
                         };
                     }
+
 
                 }); 
             }); 
