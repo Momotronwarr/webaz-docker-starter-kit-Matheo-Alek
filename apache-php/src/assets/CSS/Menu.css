@@ -28,19 +28,19 @@ body {
 
 #intro {
   font-size: 40px;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  text-shadow: 1px 1px 5px rgb(0, 0, 0);
   max-width: 800px;
 }
 
 #texte {
-  font-size: 40px;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  font-size: 30px;
+  text-shadow: 1px 1px 5px rgb(0, 0, 0);
   max-width: 800px;
 }
 
 #questions {
   font-size: 25px;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  text-shadow: 1px 1px 5px rgb(0, 0, 0);
   max-width: 6000px;
 }
 
@@ -59,4 +59,18 @@ button {
 
 button:hover {
     background-color: #ff000080;
+}
+
+#Pseudo {
+  font-size: 30px;
+  color : rgb(186, 38, 38);
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.999);
+  font-weight: bold;
+  max-width: 800px;
+}
+
+#score {
+  font-size: 25px;
+  text-shadow: 1px 1px 5px rgb(0, 0, 0);
+  max-width: 800px;
 }
