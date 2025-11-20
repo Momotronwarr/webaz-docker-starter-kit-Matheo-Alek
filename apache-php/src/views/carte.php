@@ -19,6 +19,6 @@
             </div>
         </div>
     </div>
-    <script src="\assets\JS\carte.js"></script>
+    <script src="\assets\JS\carte_c.js"></script>
 </body>
 </html>
