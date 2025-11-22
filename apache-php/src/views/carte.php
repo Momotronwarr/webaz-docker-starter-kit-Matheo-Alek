@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>carte</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <link rel="stylesheet" href="\assets\CSS\carte.css">
+    <link rel="stylesheet" href="assets/CSS/carte.css">
     <link rel="stylesheet" href="https://unpkg.com/ol/ol.css">
     <script src="https://unpkg.com/ol/dist/ol.js"></script>
 </head>
@@ -19,6 +19,6 @@
             </div>
         </div>
     </div>
-    <script src="\assets\JS\carte_c.js"></script>
+    <script src="assets/JS/carte.js"></script>
 </body>
 </html>

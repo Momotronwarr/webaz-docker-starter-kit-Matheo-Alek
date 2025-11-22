@@ -73,6 +73,3 @@ body {
   cursor: default;
 }
 
-#chrono.expired {
-  background: rgba(200,50,50,0.85);
-}

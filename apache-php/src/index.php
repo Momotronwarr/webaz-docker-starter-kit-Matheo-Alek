@@ -9,6 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $link = pg_connect("host='db' port=5432 dbname='mydb' user='postgres' password='postgres'");
+Flight::set('bd', $link);
 
 Flight::route('/', function() {
     Flight::render('menu');
@@ -18,6 +19,7 @@ Flight::post('/', function() {
     $pseudo = trim($_POST['pseudo'] ?? $_POST['pseudo'] ?? '');
     if ($pseudo !== '') {
         $_SESSION['pseudo'] = $pseudo;
+        $_SESSION['score'] = 10000;
         Flight::redirect('/prez_musical');
     } else {
         Flight::redirect('/');
@@ -37,22 +39,6 @@ Flight::route('/prez_personnalite', function() {
     Flight::render('prez_personnalite', ['triche' => $triche]);
 });
 
-Flight::route('/test-db', function () {
-    $host = 'db';
-    $port = 5432;
-    $dbname = 'mydb';
-    $user = 'postgres';
-    $pass = 'postgres';
-
-    // Connexion BDD
-    $link = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
-
-    $sql = "SELECT * FROM points";
-    $query = pg_query($link, $sql);
-    $results = pg_fetch_all($query);
-    Flight::json($results);
-});
-
 // API pour récupérer les objets du jeu depuis la table objets_jeu
 Flight::route('/api/objets', function() {
     global $link;
@@ -63,23 +49,59 @@ Flight::route('/api/objets', function() {
     Flight::json($rows ?: []);
 });
 
+// endpoint pour décrémenter le score en session (appelé par le client toutes les 30s)
+Flight::post('/tick_score', function() {
+    // assure la session
+    if (session_status() === PHP_SESSION_NONE) session_start();
+
+    // valider l'existence d'un score en session
+    if (!isset($_SESSION['score'])) {
+        $_SESSION['score'] = 0;
+    }
+
+    // décrémenter de 100 mais pas en dessous de 0
+    $_SESSION['score'] = max(0, ((int)$_SESSION['score']) - 100);
+
+    Flight::json(['score' => $_SESSION['score']]);
+});
+
 Flight::route('/carte', function() {
     Flight::render('carte');
 });
 
+Flight::route('/fin_du_jeu', function() {
+    Flight::render('fin_du_jeu');
+});
+
 Flight::post('/fin_du_jeu', function() {
+    $bd = Flight::get('bd');
+
     $pseudo = $_SESSION['pseudo'] ?? null;
-    $score = isset($_POST['score']) && is_numeric($_POST['score']) ? (int)$_POST['score'] : null;
+    $score = $_SESSION['score'] ?? null;
 
-    if ($pseudo) {
-        pg_query($link, 'INSERT INTO tableau_des_scores (pseudo, score) VALUES ($1, $2)', array($pseudo, $score));
+    if (!$pseudo) {
+        Flight::json(['status' => 'error', 'message' => 'Aucun pseudo en session'], 400);
+        return;
+    }
+
+    if (!$bd) {
+        Flight::json(['status' => 'error', 'message' => 'Pas de connexion à la base de données'], 500);
+        return;
+    }
+
+    $sql = "INSERT INTO tableau_des_scores (pseudo, score) VALUES ('".$pseudo."', ".$score.")";
+    $res = @pg_query($bd, $sql);
+
+    if ($res) {
         unset($_SESSION['pseudo']);
-
         Flight::json(['status' => 'ok']);
     } else {
-        Flight::json(['status' => 'error', 'message' => 'Aucun pseudo en session'], 400);
+        $err = pg_last_error($link);
+        Flight::json(['status' => 'error', 'message' => 'Insertion échouée: ' . ($err ?: 'unknown')], 500);
     }
 });
+
+
 
 Flight::start();
 

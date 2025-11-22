@@ -41,44 +41,76 @@ new Vue({
 
             const storageKey = 'chronometreStart';
             let start = sessionStorage.getItem(storageKey);
-            let firstStart = false;
             if (!start) {
                 start = Date.now().toString();
                 sessionStorage.setItem(storageKey, start);
-                firstStart = true;
             }
             start = parseInt(start, 10);
 
-            function formatTime(s) {
+            function pad(n) { return n.toString().padStart(2, '0'); }
+            function formatTimeSeconds(s) {
                 const h = Math.floor(s / 3600);
-                const m = Math.floor((s % 3600) / 60).toString().padStart(2, '0');
-                const sec = (s % 60).toString().padStart(2, '0');
-                return h > 0 ? `${h}:${m}:${sec}` : `${m}:${sec}`;
+                const m = Math.floor((s % 3600) / 60);
+                const sec = s % 60;
+                if (h > 0) return `${h}:${pad(m)}:${pad(sec)}`;
+                return `${pad(m)}:${pad(sec)}`;
             }
 
-            let intervalId = null;
-            function update() {
+            // update once and every second
+            let intervalId = setInterval(() => {
                 const elapsed = Math.floor((Date.now() - start) / 1000);
-                el.textContent = formatTime(elapsed);
+                el.textContent = formatTimeSeconds(elapsed);
                 window.dispatchEvent(new CustomEvent('timer:tick', { detail: { elapsed } }));
-            }
+            }, 1000);
 
-            update();
-            intervalId = setInterval(update, 1000);
+            // Also run an immediate update so the UI doesn't wait 1s
+            (function immediate() {
+                const elapsed = Math.floor((Date.now() - start) / 1000);
+                el.textContent = formatTimeSeconds(elapsed);
+            })();
 
-            if (firstStart) {
-                window.dispatchEvent(new Event('timer:started'));
+            // Decrement server-side score every 30s (first decrement after 30s)
+            const decrementMs = 30 * 1000;
+            let decrementIntervalId = null;
+            function doDecrement() {
+                fetch('/tick_score', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+                    .then(r => r.json()).then(j => {
+                        if (j && typeof j.score !== 'undefined') {
+                            window.latestGameScore = j.score;
+                            console.log('score decremented ->', j.score);
+                        }
+                    }).catch(err => console.warn('tick_score failed', err));
             }
+            // schedule first decrement after 30s, then every 30s
+            const firstDecrement = setTimeout(() => {
+                doDecrement();
+                decrementIntervalId = setInterval(doDecrement, decrementMs);
+            }, decrementMs);
 
             // expose minimal API
             window.gameTimer = {
                 getElapsed: function () { return Math.floor((Date.now() - start) / 1000); },
-                stop: function () { clearInterval(intervalId); },
+                stop: function () {
+                    clearInterval(intervalId);
+                    try { if (decrementIntervalId) clearInterval(decrementIntervalId); } catch (e) {}
+                },
                 reset: function () {
                     start = Date.now();
                     sessionStorage.setItem(storageKey, start.toString());
-                    update();
-                    if (!intervalId) intervalId = setInterval(update, 1000);
+                    // immediate UI update after reset
+                    const elapsed = 0;
+                    el.textContent = formatTimeSeconds(elapsed);
+                    // restart display interval if needed
+                    try { clearInterval(intervalId); } catch (e) {}
+                    intervalId = setInterval(() => {
+                        const elapsed2 = Math.floor((Date.now() - start) / 1000);
+                        el.textContent = formatTimeSeconds(elapsed2);
+                        window.dispatchEvent(new CustomEvent('timer:tick', { detail: { elapsed: elapsed2 } }));
+                    }, 1000);
+                    // restart decrement timer
+                    try { if (decrementIntervalId) clearInterval(decrementIntervalId); } catch (e) {}
+                    // schedule first decrement after 30s
+                    setTimeout(() => { doDecrement(); decrementIntervalId = setInterval(doDecrement, decrementMs); }, decrementMs);
                 }
             };
         },
@@ -413,7 +445,8 @@ new Vue({
                             bouton.innerText = "Sortir de Sevran";
                             popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
                             bouton.onclick = () => {
-                                
+                                // Rediriger vers l'écran de fin du jeu (GET route /fin_du_jeu)
+                                window.location.href = '/fin_du_jeu';
                             };
 
                         } else {
