@@ -14,7 +14,7 @@ new Vue({
         vendeur_photo : 'https://imgs.search.brave.com/kjpK4-yl-LDK8jNzSXSS6j3Xq5qQJA12e2cJKF1eFxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLWdyYXR1/aXRlL3NvdXJpYW50/LWNhaXNzaWVyLWFm/cm8tYW1lcmljYWlu/LWFzc2lzLWNhaXNz/ZV83NDg1NS0zMjk3/LmpwZz9zZW10PWFp/c19oeWJyaWQ', 
         shampoing_photo : 'https://imgs.search.brave.com/GHRzXCkqkX4wi694qsBqVxnpLZxWxmY4m_szgvS-Zvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hZnJv/Y2xhc3MuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA4/L0RvcC1TaGFtcG9v/aW5nLXRyZXMtZG91/eC1hdXgtT2V1ZnMt/NDAwbWwuanBn',
         photos_inventaire : [],
-        assetsMap: {},
+        triche: false,
         guetteur_rencontre: true,
         neuf2i_rencontre: false,
         puffman_rencontre: false,
@@ -31,14 +31,8 @@ new Vue({
     },
 
     mounted() {
-        this.fetchAssetsMap().then(() => {
-            this.initMap();
-            if (typeof this.startChrono === 'function') this.startChrono();
-        }).catch(err => {
-            console.error('fetchAssetsMap failed', err);
-            this.initMap();
-            if (typeof this.startChrono === 'function') this.startChrono();
-        });
+        this.initMap();
+        if (typeof this.startChrono === 'function') this.startChrono();
     },  
 
     methods: {
@@ -46,91 +40,45 @@ new Vue({
             const el = document.getElementById('chrono');
             if (!el) return;
 
-            const cleStockage = 'debutChrono';
-            let debut = sessionStorage.getItem(cleStockage);
-            if (!debut) {
-                debut = Date.now().toString();
-                sessionStorage.setItem(cleStockage, debut);
-            }
-            debut = parseInt(debut, 10);
+            const key = 'chronometreStart';
+            let start = sessionStorage.getItem(key);
+            if (!start) { start = Date.now(); sessionStorage.setItem(key, String(start)); }
+            start = parseInt(start, 10);
 
-            function deuxChiffres(n) { return n.toString().padStart(2, '0'); }
-            function formatHeuresSecondes(secTot) {
-                const h = Math.floor(secTot / 3600);
-                const m = Math.floor((secTot % 3600) / 60);
-                const s = secTot % 60;
-                if (h > 0) return `${h}:${deuxChiffres(m)}:${deuxChiffres(s)}`;
-                return `${deuxChiffres(m)}:${deuxChiffres(s)}`;
-            }
+            const fmt = (sec) => {
+                const m = Math.floor(sec / 60);
+                const s = sec % 60;
+                return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+            };
 
-            // mise à jour chaque seconde
-            let idInterval = setInterval(() => {
-                const ecoule = Math.floor((Date.now() - debut) / 1000);
-                el.textContent = formatHeuresSecondes(ecoule);
+            el.textContent = fmt(Math.floor((Date.now() - start) / 1000));
+
+            let idDisplay = setInterval(() => {
+                el.textContent = fmt(Math.floor((Date.now() - start) / 1000));
             }, 1000);
 
-            // rafraîchir immédiatement
-            (function () {
-                const ecoule = Math.floor((Date.now() - debut) / 1000);
-                el.textContent = formatHeuresSecondes(ecoule);
-            })();
-
-            // appel serveur toutes les 30s pour décrémenter le score
-            const délaiTick = 30 * 1000;
-            let idTickInterval = null;
-            const elScore = document.getElementById('score');
-            function appelTick() {
-                fetch('/tick_score', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
-                    .then(r => r.json())
-                    .then(j => {
+            let idTick = setInterval(() => {
+                fetch('/c_score', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+                    .then(r => r.json()).then(j => {
                         if (j && typeof j.score !== 'undefined') {
                             window.latestGameScore = j.score;
-                            if (elScore) elScore.textContent = 'score : ' + String(j.score);
+                            const sEl = document.getElementById('score');
+                            if (sEl) sEl.textContent = 'score : ' + String(j.score);
                         }
-                    }).catch(e => console.warn('tick_score failed', e));
-            }
-            // premier tick après 30s
-            const idFirstTick = setTimeout(() => { appelTick(); idTickInterval = setInterval(appelTick, délaiTick); }, délaiTick);
+                    }).catch(() => {});
+            }, 30000);
 
-            // API en français
-            window.chronoJeu = {
-                obtenirTemps: function () { return Math.floor((Date.now() - debut) / 1000); },
-                arreter: function () { clearInterval(idInterval); try { if (idTickInterval) clearInterval(idTickInterval); } catch (e) {} clearTimeout(idFirstTick); },
-                reinitialiser: function () { debut = Date.now(); sessionStorage.setItem(cleStockage, debut.toString()); el.textContent = '00:00'; clearInterval(idInterval); idInterval = setInterval(() => { const ec = Math.floor((Date.now() - debut) / 1000); el.textContent = formatHeuresSecondes(ec); }, 1000); try { if (idTickInterval) clearInterval(idTickInterval); } catch (e) {} setTimeout(() => { appelTick(); idTickInterval = setInterval(appelTick, délaiTick); }, délaiTick); }
+            window.gameTimer = {
+                getElapsed: () => Math.floor((Date.now() - start) / 1000),
+                stop: () => { try { clearInterval(idDisplay); clearInterval(idTick); } catch (e) {} },
+                reset: () => {
+                    try { clearInterval(idDisplay); clearInterval(idTick); } catch (e) {}
+                    start = Date.now(); sessionStorage.setItem(key, String(start));
+                    el.textContent = '00:00';
+                    idDisplay = setInterval(() => { el.textContent = fmt(Math.floor((Date.now() - start) / 1000)); }, 1000);
+                    idTick = setInterval(() => { fetch('/c_score', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' } }).then(r=>r.json()).then(j=>{ if (j && typeof j.score!=='undefined') { window.latestGameScore=j.score; const sEl=document.getElementById('score'); if (sEl) sEl.textContent='score : '+String(j.score); } }).catch(()=>{}); }, 30000);
+                }
             };
-            // compatibilité ascendante
-            window.gameTimer = window.chronoJeu;
-        },
-
-        fetchAssetsMap() {
-            return fetch('/assets')
-                .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
-                .then(objs => {
-                    if (!Array.isArray(objs)) return;
-                    this.assetsMap = {};
-                    objs.forEach(o => {
-                        if (o.nom) this.assetsMap[o.nom] = o;
-                    });
-                });
-        },
-
-        async loadObjects(map) {
-            try {
-                const res = await fetch('/api/objets');
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                const objs = await res.json();
-                if (!Array.isArray(objs)) return;
-                objs.forEach(o => {
-                    // certains champs peuvent être renvoyés en string 't'/'f' pour booleans
-                    if (o.est_ramassable === 't') o.est_ramassable = true;
-                    if (o.est_ramassable === 'f') o.est_ramassable = false;
-                    // ajouter l'objet à la carte
-                    try { addObjectToMap(o); } catch (e) { console.warn('addObjectToMap failed', e); }
-                });
-            } catch (err) {
-                console.error('Erreur loadObjects:', err);
-                throw err;
-            }
         },
 
         ajouter_inventaire(nom_objet) {
@@ -149,7 +97,7 @@ new Vue({
         if (description) {
             alert(description);
         }  
-    },
+        },
 
 
         initMap() {
@@ -173,14 +121,14 @@ new Vue({
                 })
             });
 
+            // rendre la map accessible globalement pour permettre l'ajout dynamique de layer
+            try { window.map = map; } catch (e) {}
+
             map.on('click', function (evt) {
                 let coord = evt.coordinate;
                 let lonLat = ol.proj.toLonLat(coord);
                 console.log('Longitude / Latitude :', lonLat);
             });
-
-            
-            // assets are loaded from DB via fetchAssetsMap; we avoid duplicating features here
             
 
             let el = document.createElement('div');
@@ -231,7 +179,7 @@ new Vue({
 
             imageGare_sevran.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: (this.assetsMap['gare_sevran'] && this.assetsMap['gare_sevran'].image_url) ? this.assetsMap['gare_sevran'].image_url : this.gare_sevran,
+                    src: this.gare_sevran,
                     scale: 0.25
                 })
             }));
@@ -252,7 +200,7 @@ new Vue({
 
             imageGuetteur.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: (this.assetsMap['guetteur'] && this.assetsMap['guetteur'].image_url) ? this.assetsMap['guetteur'].image_url : this.guetteur_photo,
+                    src: this.guetteur_photo,
                     scale: 0.2
                 })
             }));
@@ -273,7 +221,7 @@ new Vue({
 
             imagePuffman.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: (this.assetsMap['puffman'] && this.assetsMap['puffman'].image_url) ? this.assetsMap['puffman'].image_url : this.puffman_photo,
+                    src: this.puffman_photo,
                     scale: 0.2
                 })
             }));
@@ -294,7 +242,7 @@ new Vue({
 
             imageNeuf2i.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: (this.assetsMap['neuf2i'] && this.assetsMap['neuf2i'].image_url) ? this.assetsMap['neuf2i'].image_url : this.neuf2i,
+                    src: this.neuf2i,
                     scale: 0.2
                 })
             }));
@@ -315,7 +263,7 @@ new Vue({
 
             imageDealer.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: (this.assetsMap['dealer'] && this.assetsMap['dealer'].image_url) ? this.assetsMap['dealer'].image_url : this.dealer_photo,
+                    src: this.dealer_photo,
                     scale: 0.2
                 })
             }));
@@ -336,7 +284,7 @@ new Vue({
 
             imageVendeur.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: (this.assetsMap['vendeur'] && this.assetsMap['vendeur'].image_url) ? this.assetsMap['vendeur'].image_url : this.vendeur_photo,
+                    src: this.vendeur_photo,
                     scale: 0.2
                 })
             }));
@@ -419,70 +367,70 @@ new Vue({
                 });
             };
 
-            // ajouter les objets depuis la base de données (si présents dans assetsMap)
-            try {
-                Object.values(vm.assetsMap || {}).forEach(o => {
-                    try { addObjectToMap(o); } catch (e) { console.warn('addObjectToMap failed', e); }
-                });
-            } catch (e) { /* rien */ }
 
             // INTERACTIONS
             map.on('click', function (evt) {
                 map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
 
 
-                    // GARE (détectée par le nom de la feature)
-                    if (feature && feature.get && feature.get('nom') === 'gare_sevran') {
+                    // GARE 
+                    if(layer === layerGare_sevran){
                         const code = prompt("Entrez le code à 4 chiffres :");
                         if (code === "1234") {
                             alert("Code correct !");
                             texte.innerText = "Bravo tu as réussi à sortir de Sevran ! Tu es enfin libre !!";
                             bouton.innerText = "Sortir de Sevran";
                             popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
-                            bouton.onclick = () => { window.location.href = '/fin_du_jeu'; };
+                            bouton.onclick = () => {
+                                window.location.href = '/fin_du_jeu';
+                            };
+
                         } else {
                             alert("Code incorrect");
                         }
                     }
 
-                    // PUFFMAN
-                    if (feature && feature.get && feature.get('nom') === 'puffman') {
+                    // PUFFMAN 
+                    if(layer === layerPuffman){
                         texte.innerText = "Puffman : tu veux une puff ?";
                         bouton.innerText = "Oui";
                         popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
+                        
                         bouton.onclick = () => {
                             popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
                             texte.innerText = "Puffman : C'est 10 balles par contre";
                             bouton.innerText = "Payer 10€";
+
                             bouton.onclick = () => {
-                                try { layerPuffman.setVisible(false); } catch(e) {}
+                                layerPuffman.setVisible(false);
                                 popup.setPosition(undefined);
                                 vm.objet_recupere = 'puff';
-                                vm.ajouter_inventaire((vm.assetsMap['puff'] && vm.assetsMap['puff'].image_url) ? vm.assetsMap['puff'].image_url : vm.puff_photo);
+                                vm.ajouter_inventaire(vm.puff_photo);
                                 vm.puffman_rencontre = false;
                             };
                         };
                     }
 
-                    // GUETTEUR
-                    if (feature && feature.get && feature.get('nom') === 'guetteur') {
+                    // GUETTEUR 
+                    if (layer === layerGuetteur) {
                         if (vm.objet_recupere === 'puff'){
                             texte.innerText = "Guetteur : Ah merci tu régales le sang";
                             bouton.innerText = "Suivant";
                             popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
+                            
                             bouton.onclick = () => {
                                 popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                                 texte.innerText = "Guetteur : Si tu veux je connais un gars à BeauSevran va le voir et dis lui que tu viens de ma part";
                                 bouton.innerText = "Ca marche le sanglier";
+                                
                                 bouton.onclick = () => {
                                     popup.setPosition(undefined);
-                                    // retirer l'image puff depuis l'inventaire
-                                    vm.retirer_inventaire((vm.assetsMap['puff'] && vm.assetsMap['puff'].image_url) ? vm.assetsMap['puff'].image_url : vm.puff_photo);
+                                    vm.retirer_inventaire(vm.puff_photo);
                                     vm.objet_recupere = '';
                                     vm.guetteur_rencontre = false;
                                     vm.neuf2i_rencontre = true;
-                                    try { layerGuetteur.setVisible(false); } catch(e) {}
-                                    try { layerNeuf2i.setVisible(true); } catch(e) {}
+                                    layerGuetteur.setVisible(false);
+                                    layerNeuf2i.setVisible(true);
                                 };
                             };
                         } else {
@@ -492,49 +440,53 @@ new Vue({
                             bouton.onclick = () => {
                                 popup.setPosition(undefined);
                                 vm.puffman_rencontre = true;
-                                try { layerPuffman.setVisible(true); } catch(e) {}
+                                layerPuffman.setVisible(true);
                             };
                         }
                     }
 
-                    // NEUF2I
-                    if (feature && feature.get && feature.get('nom') === 'neuf2i') {
+                    // 92I 
+                    if (layer === layerNeuf2i) {
                         if (vm.objet_recupere === 'oeufs doux'){
                             texte.innerText = "Neuf2i : Ah ouais merci beaucoup tu me sauves !";
                             bouton.innerText = "Donner le shampoing";
                             popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            
                             bouton.onclick = () => {
                                 popup.setPosition(ol.proj.fromLonLat(BeauSevran));
-                                // retirer shampoing depuis inventaire
-                                vm.retirer_inventaire((vm.assetsMap['shampoing'] && vm.assetsMap['shampoing'].image_url) ? vm.assetsMap['shampoing'].image_url : vm.shampoing_photo);
+                                vm.retirer_inventaire(vm.shampoing_photo);
                                 texte.innerText = "Neuf2i : Merci, va à la gare je te donne le code.";
                                 bouton.innerText = "Ok vsy !";
                                 bouton.onclick = () => {
-                                    vm.ajouter_inventaire((vm.assetsMap['code_gare'] && vm.assetsMap['code_gare'].image_url) ? vm.assetsMap['code_gare'].image_url : vm.code_gare_photo);
+                                    vm.ajouter_inventaire(vm.code_gare_photo);
                                     popup.setPosition(undefined);
                                     vm.neuf2i_rencontre = false;
-                                    try { layerNeuf2i.setVisible(false); } catch(e) {}
+                                    layerNeuf2i.setVisible(false);
+                            
                                 };
                             };
                         } else if (vm.objet_recupere === 'barrette'){
                             texte.innerText = "Neuf2i : Mais putain Farouk ! C'est quoi ce que tu me donnes moi je voulais un shampoing aux oeufs doux !";
                             bouton.innerText = "Suivant";
                             popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            
                             bouton.onclick = () => {
                                 popup.setPosition(ol.proj.fromLonLat(BeauSevran));
                                 texte.innerText = "Neuf2i : J'ai des cheveux de beurettes, toi t'y connais rien t'es chauve";
                                 bouton.innerText = "Mais c'est un quiproquo";
+                                
                                 bouton.onclick = () => {
                                     popup.setPosition(ol.proj.fromLonLat(BeauSevran));
                                     texte.innerText = "Neuf2i : Je parle pas Japonais désolé quiproquo tout ça je connais pas. Va me chercher mon shampoing maintenant";
                                     bouton.innerText = "Ok déso le sang";
+                                    
                                     bouton.onclick = () => {
                                         popup.setPosition(undefined);
                                         vm.objet_recupere = '';
                                         vm.vendeur_rencontre = true;
                                         vm.dealer_rencontre = false;
-                                        try { layerDealer.setVisible(false); } catch(e) {}
-                                        try { layerVendeur.setVisible(true); } catch(e) {}
+                                        layerDealer.setVisible(false);
+                                        layerVendeur.setVisible(true);
                                     };
                                 };
                             };
@@ -545,52 +497,83 @@ new Vue({
                             bouton.onclick = () => {
                                 popup.setPosition(undefined);
                                 vm.dealer_rencontre = true;
-                                try { layerDealer.setVisible(true); } catch(e) {}
+                                layerDealer.setVisible(true);
                             };
                         }
                     }
 
                     // DEALER
-                    if (feature && feature.get && feature.get('nom') === 'dealer') {
+                    if(layer === layerDealer){
                         texte.innerText = "Dealer : Ouais tu veux du sh*t chef ??";
                         bouton.innerText = "Oui s'il vous plait";
                         popup.setPosition(ol.proj.fromLonLat(quartierDealer));
+                        
                         bouton.onclick = () => {
                             popup.setPosition(ol.proj.fromLonLat(quartierDealer));
                             texte.innerText = "Dealer : Ça fait 50 balles";
                             bouton.innerText = "Payer 50€";
+
                             bouton.onclick = () => {
-                                try { layerDealer.setVisible(false); } catch(e) {}
+                                layerDealer.setVisible(false);
                                 popup.setPosition(undefined);
                                 vm.objet_recupere = 'barrette';
-                                vm.ajouter_inventaire((vm.assetsMap['barrette'] && vm.assetsMap['barrette'].image_url) ? vm.assetsMap['barrette'].image_url : vm.barrette_photo);
+                                vm.ajouter_inventaire(vm.barrette_photo);
                                 vm.dealer_rencontre = false;
                             };
                         };
                     }
 
                     // VENDEUR
-                    if (feature && feature.get && feature.get('nom') === 'vendeur') {
+                    if(layer === layerVendeur){
                         texte.innerText = "Vendeur carrefour : Vous cherchez quoi ?";
                         bouton.innerText = "Un shampoing aux oeufs doux";
                         popup.setPosition(ol.proj.fromLonLat(carrefour));
+                        
                         bouton.onclick = () => {
                             popup.setPosition(ol.proj.fromLonLat(carrefour));
                             texte.innerText = "Vendeur carrefour : 3,50€ svp";
                             bouton.innerText = "Payer 3,50€";
+
                             bouton.onclick = () => {
-                                try { layerVendeur.setVisible(false); } catch(e) {}
+                                layerVendeur.setVisible(false);
                                 popup.setPosition(undefined);
                                 vm.objet_recupere = 'oeufs doux';
-                                vm.ajouter_inventaire((vm.assetsMap['shampoing'] && vm.assetsMap['shampoing'].image_url) ? vm.assetsMap['shampoing'].image_url : vm.shampoing_photo);
+                                vm.ajouter_inventaire(vm.shampoing_photo);
                                 vm.vendeur_rencontre = false;
                             };
                         };
+
+                        
                     }
 
 
                 }); 
             }); 
-        }                  
+        },
+
+        Active_Triche() {
+
+            let wmsCarteChaleur = new ol.layer.Tile({
+                source: new ol.source.TileWMS({
+                url: 'http://localhost:8080/geoserver/Carte_de_chaleur/wms',
+                params: {
+                    LAYERS: 'Carte_de_chaleur:Triche',
+                    },
+                })
+                });
+
+                if (this.triche) {
+                    triche = true;
+                }else {
+                    triche = false;
+                }
+
+                if (triche == true) {
+                    map.addLayer(wmsCarteChaleur)
+                } else {
+                    map.removeLayer(wmsCarteChaleur)
+                }
+            },
+                 
     }                      
 });

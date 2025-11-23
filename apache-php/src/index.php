@@ -49,14 +49,12 @@ Flight::route('/assets', function() {
     Flight::json($rows ?: []);
 });
 
-// endpoint pour décrémenter le score en session (appelé par le client toutes les 30s)
+
 Flight::post('/c_score', function() {
     if (session_status() === PHP_SESSION_NONE) session_start();
     if (!isset($_SESSION['score'])) {
         $_SESSION['score'] = 0;
     }
-
-    // décrémenter de 100 mais pas en dessous de 0
     $_SESSION['score'] = max(0, ((int)$_SESSION['score']) - 100);
 
     Flight::json(['score' => $_SESSION['score']]);

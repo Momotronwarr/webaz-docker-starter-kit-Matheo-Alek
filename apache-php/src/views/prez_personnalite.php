@@ -36,16 +36,12 @@
 
             <form action="/carte" method="get">
                 <button type="submit" title="Map">Doro Party ?! (Traduction : Prêt à découvrir Sevran ?!)</button>
-                <input id="triche" v-model="triche" type="checkbox"> 
-                <label for="triche">Mode des tricheurs (Pour les Looser 👎​) </label>
-                <label for="triche">{{message_triche}}</label>
-                 
-                
             </form>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src= "../assets/JS/introduction.js"></script> 
+    <script src= "/assets/JS/prez_personnalite.js"></script>
 </body>
 </html>

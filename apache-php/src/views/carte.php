@@ -16,6 +16,10 @@
         <div id="score" aria-live="polite">score : <?php echo htmlspecialchars($score) ?></div>
         <div id="map" class="map"></div>
         <div id = "inventaire">
+            <label>
+                <input id="triche" v-model="triche" type="checkbox" @change="Active_Triche">
+                Triche
+            </label>
             <div v-for="(photo, index) in photos_inventaire" :id="'image' + (index + 1)">
                 <img :src="photo" @click="afficher_description(photo)" >
             </div>
