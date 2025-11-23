@@ -1,0 +1,17 @@
+<layer>
+  <name>Triche</name>
+  <id>LayerInfoImpl-37d9214c:19ab29caa02:-7ffc</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--6b6abc0d:19a3525a370:-8000</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-37d9214c:19ab29caa02:-7ffd</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2025-11-23 21:27:10.717 UTC</dateCreated>
+  <dateModified>2025-11-23 21:55:34.632 UTC</dateModified>
+</layer>
