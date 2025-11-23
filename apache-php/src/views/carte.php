@@ -10,8 +10,10 @@
     <script src="https://unpkg.com/ol/dist/ol.js"></script>
 </head>
 <body>
+    <?php $score = $_SESSION['score'] ?? null; ?>
     <div id="app">
         <div id="chrono" aria-live="polite">00:00</div>
+        <div id="score" aria-live="polite">score : <?php echo htmlspecialchars($score) ?></div>
         <div id="map" class="map"></div>
         <div id = "inventaire">
             <div v-for="(photo, index) in photos_inventaire" :id="'image' + (index + 1)">

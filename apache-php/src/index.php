@@ -39,22 +39,19 @@ Flight::route('/prez_personnalite', function() {
     Flight::render('prez_personnalite', ['triche' => $triche]);
 });
 
-// API pour récupérer les objets du jeu depuis la table objets_jeu
-Flight::route('/api/objets', function() {
-    global $link;
 
-    $sql = 'SELECT id, nom, type_objet, description, image_url, coordonnees_lat, coordonnees_lon, zoom_minimal, est_ramassable FROM objets_jeu ORDER BY id';
-    $res = @pg_query($link, $sql);
+Flight::route('/assets', function() {
+    $bd = Flight::get('bd');
+
+    $sql = 'SELECT id, nom, description, image_url, geom FROM assets_jeu ORDER BY id';
+    $res = @pg_query($bd, $sql);
     $rows = $res ? pg_fetch_all($res) : [];
     Flight::json($rows ?: []);
 });
 
 // endpoint pour décrémenter le score en session (appelé par le client toutes les 30s)
-Flight::post('/tick_score', function() {
-    // assure la session
+Flight::post('/c_score', function() {
     if (session_status() === PHP_SESSION_NONE) session_start();
-
-    // valider l'existence d'un score en session
     if (!isset($_SESSION['score'])) {
         $_SESSION['score'] = 0;
     }

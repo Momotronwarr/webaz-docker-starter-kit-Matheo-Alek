@@ -73,3 +73,20 @@ body {
   cursor: default;
 }
 
+#score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 60px;
+  right: 12px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 1800;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  cursor: default;
+}
