@@ -6,9 +6,11 @@ Projet d'escape game WEB sur le théme de Sevran
 
 Le projet se décompose en trois dossier principal :
 
--"Apache-php" contient l'ensemble des codes HTML/PHP/CSS/JS
--"bd" contient un fichier backup pour recreer la base SQL 
--"Geoserver-Workspace" contient la carte de chaleur
+-"Apache-php" contient l'ensemble des codes HTML/PHP/CSS/JS.
+-"bd" contient un fichier backup pour recreer la base SQL.
+-"Geoserver-Workspace" contient l'ensemble de ressources pour configurer la carte de chaleur sur le geoserveur. 
+
+Les détails des services restent inchangé de la version d'orgine du projet sur GIT.
 
 ## Déroulé du jeu 
 

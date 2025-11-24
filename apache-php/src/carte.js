@@ -2,65 +2,50 @@ new Vue({
     el: '#app',
 
     data: {
-        objet_recupere: '',
-        photos_inventaire: [],
+        objet_recupere : '',     
+        code_gare_photo : 'https://imgs.search.brave.com/fXVPepuYffpevKQAspACjbTJHA7FGflcu1r_9R1-xpg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YXJy/aW9yc2RpdmluZS5j/b20vY2RuL3Nob3Av/YXJ0aWNsZXMvMTIz/NC1udW1iZXItcGF0/dGVybi1pbnRlcnBy/ZXRhdGlvbl8xMDI0/eDEwMjQuanBnP3Y9/MTcxOTM5MDU5Mw',
+        gare_sevran : 'https://imgs.search.brave.com/vldMYz3y2EV-SizLXaHHX18rCs_qhJYianKf0WENruU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9maWxl/cy5zdHJ1Y3R1cmFl/Lm5ldC9maWxlcy8z/NTBoaWdoL3dpa2lw/ZWRpYS9zZXZyYW5f/Z2FyZV9kZV9zZXZy/YW5fYmVhdWRvdHRl/c18wMS5qcGc',
+        guetteur_photo : 'https://imgs.search.brave.com/fOoCwlWf4rMtU1AQr4eyma6yR2gvrPorYW4_97YwGb8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLXByZW1p/dW0vaG9tbWUtY2Fn/b3VsZS1yZXNzZW1i/bGUtZXRyYW5nZW1l/bnQtY2xvc2UtdXAt/cG9ydHJhaXQtaXNv/bGUtbXVyLWJsYW5j/XzMyOTA3MC01Nzku/anBnP3NlbXQ9YWlz/X2h5YnJpZA',
+        puffman_photo : 'https://imgs.search.brave.com/P28Yq3qq2soGI_CnzpLl9QJX0kX-OeuByx85RsRqftU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWMuYmUvZW4tbWFy/Y2hlL3NpdGVzL21j/LWVuLW1hcmNoZS9m/aWxlcy9zdHlsZXMv/aW1hZ2Vfc2xpZGVy/X3hsL3B1YmxpYy9p/bWFnZXMvMjAyNC0w/Ny8yMC0yMS1QdWZm/LShjKUJlbGdhaW1h/Z2UuanBnLndlYnA_/aXRvaz03Y0dZczRl/Nw',
+        puff_photo: 'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw', 
+        neuf2i : 'https://imgs.search.brave.com/B7x0vdMf2NaY_24CvAqGPiw4mYq969ToXCHkWkb6rHU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzExL2Vj/L2U3LzExZWNlN2Uy/NDg0OTgzMzhjNmE2/ZTk5YjYwZTZlMWNi/LmpwZw',
+        dealer_photo: 'https://imgs.search.brave.com/k4E_9WKKhcu8CGzCB9QhUAFCFAjVYYbIc6QmTCWMng4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTY4/MzgwNjk1L2ZyL3Bo/b3RvL2RlYWxlci5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/R1dIcnh3R3UwWkda/ZVRDYjM5RVN6dm1r/ZXpkM1pzVDFhWG9S/ZzZyUUJiVT0',
+        barrette_photo: 'https://imgs.search.brave.com/ZunKvC2ARAEJqRP-qpjnoL19_lqG7_PaoBBBSGR31e8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/OTc0LzEyMi9zbWFs/bC9jdXRvdXQtY2Fu/bmFiaXMtbGVhZi1z/aW1wbGljaXR5LXdh/dGVyY29sb3ItcGFp/bnRpbmctZnJlZS1w/bmcucG5n',
+        vendeur_photo : 'https://imgs.search.brave.com/kjpK4-yl-LDK8jNzSXSS6j3Xq5qQJA12e2cJKF1eFxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLWdyYXR1/aXRlL3NvdXJpYW50/LWNhaXNzaWVyLWFm/cm8tYW1lcmljYWlu/LWFzc2lzLWNhaXNz/ZV83NDg1NS0zMjk3/LmpwZz9zZW10PWFp/c19oeWJyaWQ', 
+        shampoing_photo : 'https://imgs.search.brave.com/GHRzXCkqkX4wi694qsBqVxnpLZxWxmY4m_szgvS-Zvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hZnJv/Y2xhc3MuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA4/L0RvcC1TaGFtcG9v/aW5nLXRyZXMtZG91/eC1hdXgtT2V1ZnMt/NDAwbWwuanBn',
+        snap_photo : 'https://imgs.search.brave.com/zSBgV7LjoVQN4zX29YScL5H5kc3FfovT4reFOAg46RE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hcHAu/c25hcGNoYXQuY29t/L3dlYi9kZWVwbGlu/ay9zbmFwY29kZT9k/YXRhPWM1YjczZDAx/ZmRmNjRkNjY5NGQx/ZDllMmVmODdhYjY2/JnZlcnNpb249MSZ0/eXBlPXN2Zw',
+        photos_inventaire : [],
         guetteur_rencontre: true,
         neuf2i_rencontre: false,
         puffman_rencontre: false,
         dealer_rencontre: false,
         vendeur_rencontre: false,
         triche: false,
-        assetsMap: {},
-        descriptions_objets: {}
-    },
+
+
+        descriptions_objets: {
+        'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw': 'Puff',
+        'https://imgs.search.brave.com/ZunKvC2ARAEJqRP-qpjnoL19_lqG7_PaoBBBSGR31e8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/OTc0LzEyMi9zbWFs/bC9jdXRvdXQtY2Fu/bmFiaXMtbGVhZi1z/aW1wbGljaXR5LXdh/dGVyY29sb3ItcGFp/bnRpbmctZnJlZS1w/bmcucG5n': 'Barrette',
+        'https://imgs.search.brave.com/GHRzXCkqkX4wi694qsBqVxnpLZxWxmY4m_szgvS-Zvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hZnJv/Y2xhc3MuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA4/L0RvcC1TaGFtcG9v/aW5nLXRyZXMtZG91/eC1hdXgtT2V1ZnMt/NDAwbWwuanBn': 'Shampoing aux oeufs doux, pour cheveux de beurettes',
+        'https://imgs.search.brave.com/fXVPepuYffpevKQAspACjbTJHA7FGflcu1r_9R1-xpg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YXJy/aW9yc2RpdmluZS5j/b20vY2RuL3Nob3Av/YXJ0aWNsZXMvMTIz/NC1udW1iZXItcGF0/dGVybi1pbnRlcnBy/ZXRhdGlvbl8xMDI0/eDEwMjQuanBnP3Y9/MTcxOTM5MDU5Mw': 'Code de la gare : 1234',
+        'https://imgs.search.brave.com/zSBgV7LjoVQN4zX29YScL5H5kc3FfovT4reFOAg46RE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hcHAu/c25hcGNoYXQuY29t/L3dlYi9kZWVwbGlu/ay9zbmFwY29kZT9k/YXRhPWM1YjczZDAx/ZmRmNjRkNjY5NGQx/ZDllMmVmODdhYjY2/JnZlcnNpb249MSZ0/eXBlPXN2Zw' : 'Elle t as donnée un faux snap (celui de la police), force à toi',
+        
+    }
+},
 
     mounted() {
-        this.chargerAssets();
-    },
+        this.initMap();
+        if (typeof this.startChrono === 'function') this.startChrono();
+    },  
 
     methods: {
-        chargerAssets() {
-            fetch('/api/assets')
-                .then(r => {
-                    return r.json();
-                })
-                .then(data => {
-                    data.forEach(asset => {
-                        console.log('Asset:', asset.nom, '- URL:', asset.image_url);
-                        this.$set(this.assetsMap, asset.nom, asset);
-                        
-                        if (asset.description && asset.image_url) {
-                            this.$set(this.descriptions_objets, asset.image_url, asset.description);
-                        }
-                    });
-                    
-                    console.log('assetsMap complet:', this.assetsMap);
-                    console.log('Attente 500ms puis lancement initMap...');
-                    
-                    setTimeout(() => {
-                        console.log('Lancement initMap');
-                        this.initMap();
-                        if (typeof this.startChrono === 'function') {
-                            this.startChrono();
-                        }
-                    }, 500);
-                })
-                .catch(err => {
-                    console.error('ERREUR chargement assets:', err);
-                    alert('Erreur lors du chargement des données.');
-                });
-        },
-
         startChrono() {
             const el = document.getElementById('chrono');
             if (!el) return;
 
             const key = 'chronometreStart';
             let start = sessionStorage.getItem(key);
-            if (!start) { 
-                start = Date.now(); 
-                sessionStorage.setItem(key, String(start)); 
-            }
+            if (!start) { start = Date.now(); sessionStorage.setItem(key, String(start)); }
             start = parseInt(start, 10);
 
             const fmt = (sec) => {
@@ -76,57 +61,25 @@ new Vue({
             }, 1000);
 
             let idTick = setInterval(() => {
-                fetch('/c_score', { 
-                    method: 'POST', 
-                    credentials: 'same-origin', 
-                    headers: { 'Accept': 'application/json' } 
-                })
-                .then(r => r.json())
-                .then(j => {
-                    if (j && typeof j.score !== 'undefined') {
-                        window.latestGameScore = j.score;
-                        const sEl = document.getElementById('score');
-                        if (sEl) sEl.textContent = 'score : ' + String(j.score);
-                    }
-                })
-                .catch(() => {});
+                fetch('/c_score', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+                    .then(r => r.json()).then(j => {
+                        if (j && typeof j.score !== 'undefined') {
+                            window.latestGameScore = j.score;
+                            const sEl = document.getElementById('score');
+                            if (sEl) sEl.textContent = 'score : ' + String(j.score);
+                        }
+                    }).catch(() => {});
             }, 30000);
 
             window.gameTimer = {
                 getElapsed: () => Math.floor((Date.now() - start) / 1000),
-                stop: () => { 
-                    try { 
-                        clearInterval(idDisplay); 
-                        clearInterval(idTick); 
-                    } catch (e) {} 
-                },
+                stop: () => { try { clearInterval(idDisplay); clearInterval(idTick); } catch (e) {} },
                 reset: () => {
-                    try { 
-                        clearInterval(idDisplay); 
-                        clearInterval(idTick); 
-                    } catch (e) {}
-                    start = Date.now(); 
-                    sessionStorage.setItem(key, String(start));
+                    try { clearInterval(idDisplay); clearInterval(idTick); } catch (e) {}
+                    start = Date.now(); sessionStorage.setItem(key, String(start));
                     el.textContent = '00:00';
-                    idDisplay = setInterval(() => { 
-                        el.textContent = fmt(Math.floor((Date.now() - start) / 1000)); 
-                    }, 1000);
-                    idTick = setInterval(() => { 
-                        fetch('/c_score', { 
-                            method: 'POST', 
-                            credentials: 'same-origin', 
-                            headers: { 'Accept': 'application/json' } 
-                        })
-                        .then(r=>r.json())
-                        .then(j=>{ 
-                            if (j && typeof j.score!=='undefined') { 
-                                window.latestGameScore=j.score; 
-                                const sEl=document.getElementById('score'); 
-                                if (sEl) sEl.textContent='score : '+String(j.score); 
-                            } 
-                        })
-                        .catch(()=>{}); 
-                    }, 30000);
+                    idDisplay = setInterval(() => { el.textContent = fmt(Math.floor((Date.now() - start) / 1000)); }, 1000);
+                    idTick = setInterval(() => { fetch('/c_score', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' } }).then(r=>r.json()).then(j=>{ if (j && typeof j.score!=='undefined') { window.latestGameScore=j.score; const sEl=document.getElementById('score'); if (sEl) sEl.textContent='score : '+String(j.score); } }).catch(()=>{}); }, 30000);
                 }
             };
         },
@@ -143,22 +96,14 @@ new Vue({
         },
 
         afficher_description(photo_url) {
-            let description = this.descriptions_objets[photo_url];
-            if (description) {
-                alert(description);
-            }  
+        let description = this.descriptions_objets[photo_url];
+        if (description) {
+            alert(description);
+        }  
         },
 
-        getAssetUrl(assetName) {
-            const url = this.assetsMap[assetName]?.image_url || '';
-            console.log('getAssetUrl:', assetName, '->', url);
-            return url;
-        },
 
         initMap() {
-            console.log('=== DEBUT initMap ===');
-            console.log('assetsMap disponible:', Object.keys(this.assetsMap));
-            
             let Sevranbedotte = [2.53483373, 48.9360525];
             let rueRogerSalengro = [2.5355004489383908, 48.94264317994083];
             let Hopital = [2.5082232731747376, 48.93473583663277];
@@ -179,7 +124,13 @@ new Vue({
                 })
             });
 
+            // rendre la map accessible globalement pour permettre l'ajout dynamique de layer
             window.map = map;
+
+            map.on('click', function (evt) {
+                // clic sur la carte — pas d'action par défaut
+            });
+            
 
             let el = document.createElement('div');
             el.style.backgroundColor = 'white';
@@ -223,16 +174,13 @@ new Vue({
             };
 
             // GARE SEVRAN
-            let urlGare = this.getAssetUrl('gare_sevran');
-            console.log('Création feature gare avec URL:', urlGare);
-            
             let imageGare_sevran = new ol.Feature({
                 geometry: new ol.geom.Point(ol.proj.fromLonLat(Sevranbedotte))
             });
 
             imageGare_sevran.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: urlGare,
+                    src: (this.assetsMap['gare_sevran'] && this.assetsMap['gare_sevran'].image_url) || this.gare_sevran,
                     scale: 0.25
                 })
             }));
@@ -253,7 +201,7 @@ new Vue({
 
             imageGuetteur.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: this.getAssetUrl('guetteur'),
+                    src: (this.assetsMap['guetteur'] && this.assetsMap['guetteur'].image_url) || this.guetteur_photo,
                     scale: 0.2
                 })
             }));
@@ -274,7 +222,7 @@ new Vue({
 
             imagePuffman.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: this.getAssetUrl('puffman'),
+                    src: (this.assetsMap['puffman'] && this.assetsMap['puffman'].image_url) || this.puffman_photo,
                     scale: 0.2
                 })
             }));
@@ -295,7 +243,7 @@ new Vue({
 
             imageNeuf2i.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: this.getAssetUrl('neuf2i'),
+                    src: (this.assetsMap['neuf2i'] && this.assetsMap['neuf2i'].image_url) || this.neuf2i,
                     scale: 0.2
                 })
             }));
@@ -316,7 +264,7 @@ new Vue({
 
             imageDealer.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: this.getAssetUrl('dealer'),
+                    src: (this.assetsMap['dealer'] && this.assetsMap['dealer'].image_url) || this.dealer_photo,
                     scale: 0.2
                 })
             }));
@@ -337,7 +285,7 @@ new Vue({
 
             imageVendeur.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
-                    src: this.getAssetUrl('vendeur'),
+                    src: (this.assetsMap['vendeur'] && this.assetsMap['vendeur'].image_url) || this.vendeur_photo,
                     scale: 0.2
                 })
             }));
@@ -350,6 +298,7 @@ new Vue({
 
             map.addLayer(layerVendeur);
             layerVendeur.setVisible(false);
+
 
             map.getView().on('change:resolution', () => {
                 let zoom = map.getView().getZoom();
@@ -371,6 +320,7 @@ new Vue({
                         layerDealer.setVisible(true);
                     }
 
+
                     if (this.vendeur_rencontre && this.objet_recupere !== 'oeufs doux') {
                         layerVendeur.setVisible(true);
                     }
@@ -385,9 +335,44 @@ new Vue({
 
             let vm = this;
 
+            const addObjectToMap = (obj) => {
+                if (!obj || !obj.coordonnees_lat || !obj.coordonnees_lon) return;
+                const lon = parseFloat(obj.coordonnees_lon);
+                const lat = parseFloat(obj.coordonnees_lat);
+                const feature = new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+                    nom: obj.nom,
+                    description: obj.description,
+                    type_objet: obj.type_objet,
+                    est_ramassable: obj.est_ramassable
+                });
+
+                feature.setStyle(new ol.style.Style({
+                    image: new ol.style.Icon({
+                        src: obj.image_url,
+                        scale: 0.16
+                    })
+                }));
+
+                const layer = new ol.layer.Vector({
+                    source: new ol.source.Vector({ features: [feature] })
+                });
+                map.addLayer(layer);
+
+                map.on('singleclick', function(evt) {
+                    map.forEachFeatureAtPixel(evt.pixel, function(f, l) {
+                        if (f === feature) {
+                            alert((f.get('description') || 'Objet') + "\n(nom: " + f.get('nom') + ")");
+                        }
+                    });
+                });
+            };
+
+
             // INTERACTIONS
             map.on('click', function (evt) {
                 map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+
 
                     // GARE 
                     if(layer === layerGare_sevran){
@@ -400,6 +385,7 @@ new Vue({
                             bouton.onclick = () => {
                                 window.location.href = '/fin_du_jeu';
                             };
+
                         } else {
                             alert("Code incorrect");
                         }
@@ -420,7 +406,7 @@ new Vue({
                                 layerPuffman.setVisible(false);
                                 popup.setPosition(undefined);
                                 vm.objet_recupere = 'puff';
-                                vm.ajouter_inventaire(vm.getAssetUrl('puff'));
+                                vm.ajouter_inventaire(vm.puff_photo);
                                 vm.puffman_rencontre = false;
                             };
                         };
@@ -440,7 +426,7 @@ new Vue({
                                 
                                 bouton.onclick = () => {
                                     popup.setPosition(undefined);
-                                    vm.retirer_inventaire(vm.getAssetUrl('puff'));
+                                    vm.retirer_inventaire(vm.puff_photo);
                                     vm.objet_recupere = '';
                                     vm.guetteur_rencontre = false;
                                     vm.neuf2i_rencontre = true;
@@ -469,14 +455,16 @@ new Vue({
                             
                             bouton.onclick = () => {
                                 popup.setPosition(ol.proj.fromLonLat(ecole));
-                                vm.retirer_inventaire(vm.getAssetUrl('shampoing'));
-                                texte.innerText = "Neuf2i : Tiens le code c'est pour sortir de cette ville";
+                                vm.retirer_inventaire(vm.shampoing_photo);
+                                texte.innerText = "Neuf2i : Tiens le code c'est pour sortir de cette ville. Prends mon snap aussi";
                                 bouton.innerText = "Ok vsy !";
                                 bouton.onclick = () => {
-                                    vm.ajouter_inventaire(vm.getAssetUrl('code_gare'));
+                                    vm.ajouter_inventaire(vm.code_gare_photo);
+                                    vm.ajouter_inventaire(vm.snap_photo);
                                     popup.setPosition(undefined);
                                     vm.neuf2i_rencontre = false;
                                     layerNeuf2i.setVisible(false);
+                            
                                 };
                             };
                         } else if (vm.objet_recupere === 'barrette'){
@@ -495,16 +483,17 @@ new Vue({
                                     bouton.innerText = "Déso le sang";
                                     
                                     bouton.onclick = () => {
+
                                         texte.innerText = "Neuf2i : Il y'a un carrefour à BeauSevran si tu veux";
                                         bouton.innerText = "Ok j'y vais";
-                                        bouton.onclick = () => {
+                                         bouton.onclick = () => {
                                             popup.setPosition(undefined);
                                             vm.objet_recupere = '';
                                             vm.vendeur_rencontre = true;
                                             vm.dealer_rencontre = false;
                                             layerDealer.setVisible(false);
                                             layerVendeur.setVisible(true);
-                                        }
+                                         }
                                     };
                                 };
                             };
@@ -535,7 +524,7 @@ new Vue({
                                 layerDealer.setVisible(false);
                                 popup.setPosition(undefined);
                                 vm.objet_recupere = 'barrette';
-                                vm.ajouter_inventaire(vm.getAssetUrl('barrette'));
+                                vm.ajouter_inventaire(vm.barrette_photo);
                                 vm.dealer_rencontre = false;
                             };
                         };
@@ -556,47 +545,56 @@ new Vue({
                                 layerVendeur.setVisible(false);
                                 popup.setPosition(undefined);
                                 vm.objet_recupere = 'oeufs doux';
-                                vm.ajouter_inventaire(vm.getAssetUrl('shampoing'));
+                                vm.ajouter_inventaire(vm.shampoing_photo);
                                 vm.vendeur_rencontre = false;
                             };
                         };
                     }
+
+
                 }); 
-            });
-            
-            console.log('=== FIN initMap ===');
+            }); 
+
         },
 
         Active_Triche() {
-            if (!window.map) return;
-
-            let wmsCarteChaleur = new ol.layer.Tile({
-                source: new ol.source.TileWMS({
-                    url: 'http://localhost:8080/geoserver/Carte_de_chaleur/wms',
-                    params: {
-                        'LAYERS': 'Carte_de_chaleur:Triche',
-                        'TILED': true
-                    },
-                    serverType: 'geoserver'
-                })
-            });
-
-            wmsCarteChaleur.set('name', 'carteChaleur');
-
-            let existingLayer = null;
-            window.map.getLayers().forEach(function(layer) {
-                if (layer.get('name') === 'carteChaleur') {
-                    existingLayer = layer;
-                }
-            });
-
-            if (existingLayer) {
-                window.map.removeLayer(existingLayer);
-            }
-
-            if (this.triche) {
-                window.map.addLayer(wmsCarteChaleur);
-            }
+        // La variable 'map' doit être accessible (soit globale, soit stockée dans Vue)
+        if (!window.map) {
+            return;
         }
+
+        // Créer la couche WMS
+        let wmsCarteChaleur = new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+                url: 'http://localhost:8080/geoserver/Carte_de_chaleur/wms',
+                params: {
+                    'LAYERS': 'Carte_de_chaleur:Triche',
+                    'TILED': true
+                },
+                serverType: 'geoserver'
+            })
+        });
+
+        // Donner un identifiant unique à la couche pour pouvoir la retrouver
+        wmsCarteChaleur.set('name', 'carteChaleur');
+
+        // Supprimer l'ancienne couche si elle existe
+        let existingLayer = null;
+        window.map.getLayers().forEach(function(layer) {
+            if (layer.get('name') === 'carteChaleur') {
+                existingLayer = layer;
+            }
+        });
+
+        if (existingLayer) {
+            window.map.removeLayer(existingLayer);
+        }
+
+        if (this.triche) {
+            window.map.addLayer(wmsCarteChaleur);
+        }
+    },
+
+                 
     }                      
 });

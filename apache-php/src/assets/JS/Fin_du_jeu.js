@@ -1,5 +1,4 @@
 (function() {
-	const form = document.getElementById('end-form');
 	const msg = document.getElementById('message');
 
 	function cleanupChronoAndRedirect() {
@@ -9,9 +8,8 @@
 			}
 			sessionStorage.removeItem('chronometreStart');
 		} catch (e) {
-			console.warn('chrono cleanup failed', e);
+			console.warn('chrono flop', e);
 		}
-		// small delay so user sees confirmation
 		setTimeout(() => { window.location.href = '/'; }, 700);
 	}
 
@@ -30,14 +28,13 @@
 		}
 
 		if (j && j.status === 'ok') {
-			if (msg) { msg.textContent = 'Score enregistré. Redirection...'; msg.style.color = 'green'; }
+			if (msg) { msg.textContent = 'Score enregistré. '; msg.style.color = 'green'; }
 			cleanupChronoAndRedirect();
 		} else {
 			if (msg) { msg.textContent = 'Erreur : ' + (j && j.message ? j.message : 'Impossible d\'enregistrer'); msg.style.color = 'red'; }
 		}
 	}).catch(err => {
-		console.error('auto submit error', err);
-		if (msg) { msg.textContent = 'Erreur réseau'; msg.style.color = 'red'; }
+		if (msg) { msg.textContent = 'Erreur'; msg.style.color = 'red'; }
 	});
 
 })();

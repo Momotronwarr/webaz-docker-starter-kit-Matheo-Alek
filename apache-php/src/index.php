@@ -40,12 +40,18 @@ Flight::route('/prez_personnalite', function() {
 });
 
 
-Flight::route('/assets', function() {
+Flight::route('/api/assets', function() {
     $bd = Flight::get('bd');
 
-    $sql = 'SELECT id, nom, description, image_url, geom FROM assets_jeu ORDER BY id';
+    $sql = 'SELECT nom, description, image_url, geom FROM assets_jeu ORDER BY id';
     $res = @pg_query($bd, $sql);
     $rows = $res ? pg_fetch_all($res) : [];
+
+    if (!$res) {
+        Flight::json(['error' => pg_last_error($bd)], 500);
+        return;
+    }
+
     Flight::json($rows ?: []);
 });
 
@@ -73,12 +79,26 @@ Flight::post('/fin_du_jeu', function() {
 
     $pseudo = $_SESSION['pseudo'] ?? null;
     $score = $_SESSION['score'] ?? null;
+
+    if (!$pseudo) {
+        Flight::json(['status' => 'error', 'message' => 'Aucun pseudo en session'], 400);
+        return;
+    }
+
+    if (!$bd) {
+        Flight::json(['status' => 'error', 'message' => 'Pas de connexion à la base de données'], 500);
+        return;
+    }
+
     $sql = "INSERT INTO tableau_des_scores (pseudo, score) VALUES ('".$pseudo."', ".$score.")";
     $res = @pg_query($bd, $sql);
 
     if ($res) {
         unset($_SESSION['pseudo']);
-    } 
+        Flight::json(['status' => 'ok']);
+    } else {
+        Flight::json(['status' => 'error', 'message' => 'Insertion dans la base de donnée échouée: ' . (pg_last_error($bd) ?: 'unknown')], 500);
+    }
 });
 
 
