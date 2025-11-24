@@ -10,18 +10,21 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Fin du jeu</h1>
-
+		<div id="titre">Fin du jeu</div>
+		
+		<div id="texte">
 		<?php $pseudo = $_SESSION['pseudo'] ?? null; ?>
 		<?php $score = $_SESSION['score'] ?? null; ?>
 
 		<?php if (!$pseudo): ?>
 			<p>Aucun pseudo. <a href="/">Retour au menu</a></p>
 		<?php else: ?>
+			
 			<p>Bravo d'avoir quitté Sevran, <strong><?php echo htmlspecialchars($pseudo); ?></strong>.</p>
 			<p>Votre score :  <strong><?php echo htmlspecialchars($score); ?></strong>.</p>
 
 			<div><button type="submit"><a href="/">Retour au menu</a></button></div>
+		</div>
 		<?php endif; ?>
 	</div>
 </body>
