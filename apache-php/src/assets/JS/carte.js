@@ -13,8 +13,8 @@ new Vue({
         barrette_photo: 'https://imgs.search.brave.com/ZunKvC2ARAEJqRP-qpjnoL19_lqG7_PaoBBBSGR31e8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/OTc0LzEyMi9zbWFs/bC9jdXRvdXQtY2Fu/bmFiaXMtbGVhZi1z/aW1wbGljaXR5LXdh/dGVyY29sb3ItcGFp/bnRpbmctZnJlZS1w/bmcucG5n',
         vendeur_photo : 'https://imgs.search.brave.com/kjpK4-yl-LDK8jNzSXSS6j3Xq5qQJA12e2cJKF1eFxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cGhvdG9zLWdyYXR1/aXRlL3NvdXJpYW50/LWNhaXNzaWVyLWFm/cm8tYW1lcmljYWlu/LWFzc2lzLWNhaXNz/ZV83NDg1NS0zMjk3/LmpwZz9zZW10PWFp/c19oeWJyaWQ', 
         shampoing_photo : 'https://imgs.search.brave.com/GHRzXCkqkX4wi694qsBqVxnpLZxWxmY4m_szgvS-Zvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hZnJv/Y2xhc3MuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA4/L0RvcC1TaGFtcG9v/aW5nLXRyZXMtZG91/eC1hdXgtT2V1ZnMt/NDAwbWwuanBn',
+        snap_photo : 'https://imgs.search.brave.com/zSBgV7LjoVQN4zX29YScL5H5kc3FfovT4reFOAg46RE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hcHAu/c25hcGNoYXQuY29t/L3dlYi9kZWVwbGlu/ay9zbmFwY29kZT9k/YXRhPWM1YjczZDAx/ZmRmNjRkNjY5NGQx/ZDllMmVmODdhYjY2/JnZlcnNpb249MSZ0/eXBlPXN2Zw',
         photos_inventaire : [],
-        triche: false,
         guetteur_rencontre: true,
         neuf2i_rencontre: false,
         puffman_rencontre: false,
@@ -26,7 +26,9 @@ new Vue({
         'https://imgs.search.brave.com/zSctb-Uph-vbjd0EF760eFELmeyJM4SldqgjYdOr3-A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZWxpcXVpZGFuZGNv/LmNvbS8zNzUyMi1o/b21lX2RlZmF1bHQv/cGFzdGVxdWUtcGVj/aGUtbWFuZ3VlLmpw/Zw': 'Puff',
         'https://imgs.search.brave.com/ZunKvC2ARAEJqRP-qpjnoL19_lqG7_PaoBBBSGR31e8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/OTc0LzEyMi9zbWFs/bC9jdXRvdXQtY2Fu/bmFiaXMtbGVhZi1z/aW1wbGljaXR5LXdh/dGVyY29sb3ItcGFp/bnRpbmctZnJlZS1w/bmcucG5n': 'Barrette',
         'https://imgs.search.brave.com/GHRzXCkqkX4wi694qsBqVxnpLZxWxmY4m_szgvS-Zvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hZnJv/Y2xhc3MuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIwLzA4/L0RvcC1TaGFtcG9v/aW5nLXRyZXMtZG91/eC1hdXgtT2V1ZnMt/NDAwbWwuanBn': 'Shampoing aux oeufs doux, pour cheveux de beurettes',
-        'https://imgs.search.brave.com/fXVPepuYffpevKQAspACjbTJHA7FGflcu1r_9R1-xpg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YXJy/aW9yc2RpdmluZS5j/b20vY2RuL3Nob3Av/YXJ0aWNsZXMvMTIz/NC1udW1iZXItcGF0/dGVybi1pbnRlcnBy/ZXRhdGlvbl8xMDI0/eDEwMjQuanBnP3Y9/MTcxOTM5MDU5Mw': 'Code de la gare : 1234'
+        'https://imgs.search.brave.com/fXVPepuYffpevKQAspACjbTJHA7FGflcu1r_9R1-xpg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YXJy/aW9yc2RpdmluZS5j/b20vY2RuL3Nob3Av/YXJ0aWNsZXMvMTIz/NC1udW1iZXItcGF0/dGVybi1pbnRlcnBy/ZXRhdGlvbl8xMDI0/eDEwMjQuanBnP3Y9/MTcxOTM5MDU5Mw': 'Code de la gare : 1234',
+        'https://imgs.search.brave.com/zSBgV7LjoVQN4zX29YScL5H5kc3FfovT4reFOAg46RE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hcHAu/c25hcGNoYXQuY29t/L3dlYi9kZWVwbGlu/ay9zbmFwY29kZT9k/YXRhPWM1YjczZDAx/ZmRmNjRkNjY5NGQx/ZDllMmVmODdhYjY2/JnZlcnNpb249MSZ0/eXBlPXN2Zw' : 'Elle t as donnée un faux snap (celui de la police), force à toi',
+        
     },
     },
 
@@ -103,8 +105,8 @@ new Vue({
         initMap() {
             let Sevranbedotte = [2.53483373, 48.9360525];
             let rueRogerSalengro = [2.5355004489383908, 48.94264317994083];
-            let Jean_Jaurès = [2.5160858532768344, 48.94067724969696];
-            let BeauSevran = [2.5281093734656395, 48.94984489166902];
+            let Hopital = [2.5082232731747376, 48.93473583663277];
+            let ecole = [2.520619367470114, 48.94663601948935];
             let quartierDealer = [2.533857385931753, 48.94847960265787];
             let carrefour = [2.5281698795516623, 48.94852626971482];
 
@@ -148,7 +150,7 @@ new Vue({
             el.style.lineHeight = '1.5';  
 
             let texte = document.createElement('div');
-            texte.innerText = "Bienvenue à Sevran ! Maintenant tu dois réussir à partir (c'est un peu trop dangeureux pour toi).";
+            texte.innerText = "Bienvenue à Sevran ! Pas mal n'est ce pas ? Maintenant tu dois réussir à partir de cette ville rempli de fou (c'est un peu trop dangeureux pour toi)";
             el.appendChild(texte);
 
             let bouton = document.createElement('button');
@@ -167,7 +169,7 @@ new Vue({
             popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
 
             bouton.onclick = () => {
-                texte.innerText = "La porte de la gare est fermée, il faut que tu récupères la clé. J'ai entendu dire qu'un guetteur avait des informations à la rue Salengro, va voir !";
+                texte.innerText = "La porte de la gare est fermée par un code, il faut que tu récupères le code. J'ai entendu dire qu'un guetteur avait des informations à la rue Salengro, va le voir !";
                 popup.setPosition(ol.proj.fromLonLat(Sevranbedotte));
                 bouton.onclick = () => {popup.setPosition(undefined)}
             };
@@ -216,7 +218,7 @@ new Vue({
 
             // PUFFMAN
             let imagePuffman = new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat(Jean_Jaurès))
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(Hopital))
             });
 
             imagePuffman.setStyle(new ol.style.Style({
@@ -237,7 +239,7 @@ new Vue({
 
             // NEUF2I
             let imageNeuf2i = new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat(BeauSevran))
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(ecole))
             });
 
             imageNeuf2i.setStyle(new ol.style.Style({
@@ -394,10 +396,10 @@ new Vue({
                     if(layer === layerPuffman){
                         texte.innerText = "Puffman : tu veux une puff ?";
                         bouton.innerText = "Oui";
-                        popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
+                        popup.setPosition(ol.proj.fromLonLat(Hopital));
                         
                         bouton.onclick = () => {
-                            popup.setPosition(ol.proj.fromLonLat(Jean_Jaurès));
+                            popup.setPosition(ol.proj.fromLonLat(Hopital));
                             texte.innerText = "Puffman : C'est 10 balles par contre";
                             bouton.innerText = "Payer 10€";
 
@@ -420,7 +422,7 @@ new Vue({
                             
                             bouton.onclick = () => {
                                 popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
-                                texte.innerText = "Guetteur : Si tu veux je connais un gars à BeauSevran va le voir et dis lui que tu viens de ma part";
+                                texte.innerText = "Guetteur : Si tu veux je connais une meuf devant l'école maternelle Anatole France, va la voir elle en sait plus que moi sur ce fameux code";
                                 bouton.innerText = "Ca marche le sanglier";
                                 
                                 bouton.onclick = () => {
@@ -434,7 +436,7 @@ new Vue({
                                 };
                             };
                         } else {
-                            texte.innerText = "Guetteur : J'ai besoin d'une puff, reviens quand t'en auras une";
+                            texte.innerText = "Guetteur : Tu veux savoir quelque chose sur ce code ? D'abord j'ai besoin d'une puff, je connais un gars devant l'hoptial René-Muret. Reviens quand t'en auras une";
                             bouton.innerText = "Aller chercher une puff";
                             popup.setPosition(ol.proj.fromLonLat(rueRogerSalengro));
                             bouton.onclick = () => {
@@ -450,15 +452,16 @@ new Vue({
                         if (vm.objet_recupere === 'oeufs doux'){
                             texte.innerText = "Neuf2i : Ah ouais merci beaucoup tu me sauves !";
                             bouton.innerText = "Donner le shampoing";
-                            popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            popup.setPosition(ol.proj.fromLonLat(ecole));
                             
                             bouton.onclick = () => {
-                                popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                                popup.setPosition(ol.proj.fromLonLat(ecole));
                                 vm.retirer_inventaire(vm.shampoing_photo);
-                                texte.innerText = "Neuf2i : Merci, va à la gare je te donne le code.";
+                                texte.innerText = "Neuf2i : Tiens le code c'est pour sortir de cette ville. Prends mon snap aussi";
                                 bouton.innerText = "Ok vsy !";
                                 bouton.onclick = () => {
                                     vm.ajouter_inventaire(vm.code_gare_photo);
+                                    vm.ajouter_inventaire(vm.snap_photo);
                                     popup.setPosition(undefined);
                                     vm.neuf2i_rencontre = false;
                                     layerNeuf2i.setVisible(false);
@@ -466,34 +469,39 @@ new Vue({
                                 };
                             };
                         } else if (vm.objet_recupere === 'barrette'){
-                            texte.innerText = "Neuf2i : Mais putain Farouk ! C'est quoi ce que tu me donnes moi je voulais un shampoing aux oeufs doux !";
+                            texte.innerText = "Neuf2i : Mais p*tain ! C'est quoi ce que tu me donnes moi je voulais un shampoing aux oeufs doux !";
                             bouton.innerText = "Suivant";
-                            popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            popup.setPosition(ol.proj.fromLonLat(ecole));
                             
                             bouton.onclick = () => {
-                                popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                                popup.setPosition(ol.proj.fromLonLat(ecole));
                                 texte.innerText = "Neuf2i : J'ai des cheveux de beurettes, toi t'y connais rien t'es chauve";
                                 bouton.innerText = "Mais c'est un quiproquo";
                                 
                                 bouton.onclick = () => {
-                                    popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                                    popup.setPosition(ol.proj.fromLonLat(ecole));
                                     texte.innerText = "Neuf2i : Je parle pas Japonais désolé quiproquo tout ça je connais pas. Va me chercher mon shampoing maintenant";
-                                    bouton.innerText = "Ok déso le sang";
+                                    bouton.innerText = "Déso le sang";
                                     
                                     bouton.onclick = () => {
-                                        popup.setPosition(undefined);
-                                        vm.objet_recupere = '';
-                                        vm.vendeur_rencontre = true;
-                                        vm.dealer_rencontre = false;
-                                        layerDealer.setVisible(false);
-                                        layerVendeur.setVisible(true);
+
+                                        texte.innerText = "Neuf2i : Il y'a un carrefour à BeauSevran si tu veux";
+                                        bouton.innerText = "Ok j'y vais";
+                                         bouton.onclick = () => {
+                                            popup.setPosition(undefined);
+                                            vm.objet_recupere = '';
+                                            vm.vendeur_rencontre = true;
+                                            vm.dealer_rencontre = false;
+                                            layerDealer.setVisible(false);
+                                            layerVendeur.setVisible(true);
+                                         }
                                     };
                                 };
                             };
                         } else {
-                            texte.innerText = "Neuf2i : J'ai besoin d'un 'zedou', tu peux m'en ramener un ?";
-                            bouton.innerText = "Moi: Je vais voir ce que je peux faire";
-                            popup.setPosition(ol.proj.fromLonLat(BeauSevran));
+                            texte.innerText = "Neuf2i : J'ai besoin d'un 'zedou' (en bafouillant), tu peux m'en ramener un ?";
+                            bouton.innerText = "Je vais voir ce que je peux faire";
+                            popup.setPosition(ol.proj.fromLonLat(ecole));
                             bouton.onclick = () => {
                                 popup.setPosition(undefined);
                                 vm.dealer_rencontre = true;
@@ -504,7 +512,7 @@ new Vue({
 
                     // DEALER
                     if(layer === layerDealer){
-                        texte.innerText = "Dealer : Ouais tu veux du sh*t chef ??";
+                        texte.innerText = "Dealer : Ouais tu veux une conso chef ??";
                         bouton.innerText = "Oui s'il vous plait";
                         popup.setPosition(ol.proj.fromLonLat(quartierDealer));
                         
@@ -542,8 +550,6 @@ new Vue({
                                 vm.vendeur_rencontre = false;
                             };
                         };
-
-                        
                     }
 
 
