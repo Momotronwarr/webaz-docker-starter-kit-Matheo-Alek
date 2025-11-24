@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<<<<<<< HEAD
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Fin du jeu</title>
@@ -27,3 +28,13 @@
 </body>
 </html>
 
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fin du jeu</title>
+</head>
+<body>
+    
+</body>
+</html>
+>>>>>>> 8632ad98a14b72081fc8d210da8a359cd9334893

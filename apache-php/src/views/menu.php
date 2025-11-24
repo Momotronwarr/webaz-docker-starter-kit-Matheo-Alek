@@ -22,7 +22,7 @@
         <form action="/" method="POST">
             <label>Entrez votre pseudo :</label>
             <input type="text" name="pseudo" required value="<?php echo htmlspecialchars($_SESSION['pseudo'] ?? ''); ?>">
-            <button type="submit">Ok</button>
+            <button type="submit">Lancer le jeu !</button>
         </form>
     </div>
 
