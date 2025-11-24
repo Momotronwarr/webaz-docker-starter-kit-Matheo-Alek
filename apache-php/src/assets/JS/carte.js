@@ -20,6 +20,7 @@ new Vue({
         puffman_rencontre: false,
         dealer_rencontre: false,
         vendeur_rencontre: false,
+        triche: false,
 
 
         descriptions_objets: {
@@ -29,8 +30,8 @@ new Vue({
         'https://imgs.search.brave.com/fXVPepuYffpevKQAspACjbTJHA7FGflcu1r_9R1-xpg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YXJy/aW9yc2RpdmluZS5j/b20vY2RuL3Nob3Av/YXJ0aWNsZXMvMTIz/NC1udW1iZXItcGF0/dGVybi1pbnRlcnBy/ZXRhdGlvbl8xMDI0/eDEwMjQuanBnP3Y9/MTcxOTM5MDU5Mw': 'Code de la gare : 1234',
         'https://imgs.search.brave.com/zSBgV7LjoVQN4zX29YScL5H5kc3FfovT4reFOAg46RE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hcHAu/c25hcGNoYXQuY29t/L3dlYi9kZWVwbGlu/ay9zbmFwY29kZT9k/YXRhPWM1YjczZDAx/ZmRmNjRkNjY5NGQx/ZDllMmVmODdhYjY2/JnZlcnNpb249MSZ0/eXBlPXN2Zw' : 'Elle t as donnée un faux snap (celui de la police), force à toi',
         
-    },
-    },
+    }
+},
 
     mounted() {
         this.initMap();
@@ -124,7 +125,7 @@ new Vue({
             });
 
             // rendre la map accessible globalement pour permettre l'ajout dynamique de layer
-            try { window.map = map; } catch (e) {}
+            window.map = map;
 
             map.on('click', function (evt) {
                 let coord = evt.coordinate;
@@ -555,31 +556,51 @@ new Vue({
 
                 }); 
             }); 
+
         },
 
         Active_Triche() {
+        // La variable 'map' doit être accessible (soit globale, soit stockée dans Vue)
+        if (!window.map) {
+            console.error('Map non disponible');
+            return;
+        }
 
-            let wmsCarteChaleur = new ol.layer.Tile({
-                source: new ol.source.TileWMS({
+        // Créer la couche WMS
+        let wmsCarteChaleur = new ol.layer.Tile({
+            source: new ol.source.TileWMS({
                 url: 'http://localhost:8080/geoserver/Carte_de_chaleur/wms',
                 params: {
-                    LAYERS: 'Carte_de_chaleur:Triche',
-                    },
-                })
-                });
+                    'LAYERS': 'Carte_de_chaleur:Triche',
+                    'TILED': true
+                },
+                serverType: 'geoserver'
+            })
+        });
 
-                if (this.triche) {
-                    triche = true;
-                }else {
-                    triche = false;
-                }
+        // Donner un identifiant unique à la couche pour pouvoir la retrouver
+        wmsCarteChaleur.set('name', 'carteChaleur');
 
-                if (triche == true) {
-                    map.addLayer(wmsCarteChaleur)
-                } else {
-                    map.removeLayer(wmsCarteChaleur)
-                }
-            },
+        // Supprimer l'ancienne couche si elle existe
+        let existingLayer = null;
+        window.map.getLayers().forEach(function(layer) {
+            if (layer.get('name') === 'carteChaleur') {
+                existingLayer = layer;
+            }
+        });
+
+        if (existingLayer) {
+            window.map.removeLayer(existingLayer);
+        }
+
+        if (this.triche) {
+            window.map.addLayer(wmsCarteChaleur);
+            console.log('Carte de chaleur activée');
+        } else {
+            console.log('Carte de chaleur désactivée');
+        }
+    },
+
                  
     }                      
 });
