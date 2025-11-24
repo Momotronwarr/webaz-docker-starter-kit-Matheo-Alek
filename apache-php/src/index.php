@@ -73,27 +73,12 @@ Flight::post('/fin_du_jeu', function() {
 
     $pseudo = $_SESSION['pseudo'] ?? null;
     $score = $_SESSION['score'] ?? null;
-
-    if (!$pseudo) {
-        Flight::json(['status' => 'error', 'message' => 'Aucun pseudo en session'], 400);
-        return;
-    }
-
-    if (!$bd) {
-        Flight::json(['status' => 'error', 'message' => 'Pas de connexion à la base de données'], 500);
-        return;
-    }
-
     $sql = "INSERT INTO tableau_des_scores (pseudo, score) VALUES ('".$pseudo."', ".$score.")";
     $res = @pg_query($bd, $sql);
 
     if ($res) {
         unset($_SESSION['pseudo']);
-        Flight::json(['status' => 'ok']);
-    } else {
-        $err = pg_last_error($link);
-        Flight::json(['status' => 'error', 'message' => 'Insertion échouée: ' . ($err ?: 'unknown')], 500);
-    }
+    } 
 });
 
 
