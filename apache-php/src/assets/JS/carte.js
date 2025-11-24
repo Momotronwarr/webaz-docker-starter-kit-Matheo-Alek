@@ -124,7 +124,6 @@ new Vue({
                 })
             });
 
-            // rendre la map accessible globalement pour permettre l'ajout dynamique de layer
             window.map = map;
 
             map.on('click', function (evt) {
@@ -305,7 +304,7 @@ new Vue({
             map.getView().on('change:resolution', () => {
                 let zoom = map.getView().getZoom();
 
-                if (zoom >= 9) {
+                if (zoom >= 18) {
                     if (this.guetteur_rencontre) {
                         layerGuetteur.setVisible(true);
                     }
@@ -560,13 +559,11 @@ new Vue({
         },
 
         Active_Triche() {
-        // La variable 'map' doit être accessible (soit globale, soit stockée dans Vue)
         if (!window.map) {
             console.error('Map non disponible');
             return;
         }
 
-        // Créer la couche WMS
         let wmsCarteChaleur = new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: 'http://localhost:8080/geoserver/Carte_de_chaleur/wms',
@@ -578,10 +575,8 @@ new Vue({
             })
         });
 
-        // Donner un identifiant unique à la couche pour pouvoir la retrouver
         wmsCarteChaleur.set('name', 'carteChaleur');
 
-        // Supprimer l'ancienne couche si elle existe
         let existingLayer = null;
         window.map.getLayers().forEach(function(layer) {
             if (layer.get('name') === 'carteChaleur') {
